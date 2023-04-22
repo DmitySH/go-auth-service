@@ -1,0 +1,24 @@
+services:
+  auth-service:
+    container_name: "auth-service"
+    build: ./
+    restart: "on-failure:5"
+    ports:
+      - "8940:8940"
+    env_file:
+      - "./configs/app.env"
+    depends_on:
+      - db
+
+  db:
+    image: postgres:14.1
+    container_name: "auth-postgres"
+    environment:
+      POSTGRES_DB: "auth-stg"
+      POSTGRES_USER: "dmity"
+      POSTGRES_PASSWORD: "Jq5eL2eH2mF"
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+    volumes:
+      - .:/var/lib/postgresql/data
+    ports:
+      - "5440:5432"

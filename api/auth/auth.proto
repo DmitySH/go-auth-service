@@ -1,0 +1,35 @@
+syntax = "proto3";
+option go_package = "github.com/DmitySH/go-auth-service/api/chat";
+
+import "google/protobuf/empty.proto";
+package auth;
+
+
+service Auth {
+  rpc Register(RegisterRequest) returns (google.protobuf.Empty) {}
+  rpc Login(LoginRequest) returns (LoginResponse) {}
+  rpc Validate(ValidateRequest) returns (ValidateResponse) {}
+}
+
+
+message RegisterRequest {
+  string email = 1;
+  string password = 2;
+}
+
+message LoginRequest {
+  string email = 1;
+  string password = 2;
+}
+
+message LoginResponse {
+  string token = 1;
+}
+
+message ValidateRequest {
+  string token = 1;
+}
+
+message ValidateResponse {
+  int64 userId = 1;
+}
