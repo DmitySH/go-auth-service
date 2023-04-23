@@ -2,6 +2,7 @@ package server
 
 import (
 	"context"
+	"fmt"
 	"github.com/DmitySH/go-auth-service/internal/service"
 	"github.com/DmitySH/go-auth-service/pkg/api/auth"
 	"google.golang.org/protobuf/types/known/emptypb"
@@ -19,6 +20,11 @@ func NewAuthServer(service service.Authorization) *AuthServer {
 }
 
 func (s *AuthServer) Register(ctx context.Context, req *auth.RegisterRequest) (*emptypb.Empty, error) {
+	registerRequest := convertRegisterRequest(req)
+	if registerErr := s.authSvc.Register(ctx, registerRequest); registerErr != nil {
+		return nil, fmt.Errorf("registration error: %w", registerErr)
+	}
+
 	return &emptypb.Empty{}, nil
 }
 

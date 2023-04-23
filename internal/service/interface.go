@@ -6,7 +6,7 @@ import (
 )
 
 type AuthRepository interface {
-	CreateUser(ctx context.Context, user entity.AuthUser) error
+	GetUserByEmail(ctx context.Context, email string) (entity.AuthUser, error)
 }
 
 type Authorization interface {
