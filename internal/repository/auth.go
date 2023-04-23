@@ -19,10 +19,11 @@ type AuthRepository struct {
 	psql sq.StatementBuilderType
 }
 
-func (r AuthRepository) GetUserByEmail(ctx context.Context, email string) (entity.AuthUser, error) {
-	getUserSQL, args, buildSqlErr := r.psql.Select("*").From(userTable).Where(sq.Eq{
-		"email": email,
-	}).ToSql()
+func (r *AuthRepository) GetUserByEmail(ctx context.Context, email string) (entity.AuthUser, error) {
+	getUserSQL, args, buildSqlErr := r.psql.Select("*").
+		From(userTable).
+		Where(sq.Eq{"email": email}).
+		ToSql()
 	if buildSqlErr != nil {
 		return entity.AuthUser{}, fmt.Errorf("can't build sql: %w", buildSqlErr)
 	}
@@ -34,10 +35,28 @@ func (r AuthRepository) GetUserByEmail(ctx context.Context, email string) (entit
 		return entity.AuthUser{}, service.ErrNoUser
 	}
 	if getUserErr != nil {
-		return entity.AuthUser{}, fmt.Errorf("can't get user: %w", getUserErr)
+		return entity.AuthUser{}, fmt.Errorf("error during sql executing: %w", getUserErr)
 	}
 
 	return user, nil
+}
+
+func (r *AuthRepository) CreateUser(ctx context.Context, user entity.AuthUser) error {
+	createUserSQL, args, buildSqlErr := r.psql.Insert(userTable).
+		Columns("email", "password").
+		Values(user.Email, user.Password).
+		ToSql()
+
+	if buildSqlErr != nil {
+		return fmt.Errorf("can't build sql: %w", buildSqlErr)
+	}
+
+	_, createUserErr := r.db.ExecContext(ctx, createUserSQL, args...)
+	if createUserErr != nil {
+		return fmt.Errorf("error during sql executing: %w", createUserErr)
+	}
+
+	return nil
 }
 
 func NewAuthRepository(db *sqlx.DB) *AuthRepository {

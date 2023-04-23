@@ -19,9 +19,9 @@ func NewAuthServer(service service.Authorization) *AuthServer {
 	}
 }
 
-func (s *AuthServer) Register(ctx context.Context, req *auth.RegisterRequest) (*emptypb.Empty, error) {
+func (s *AuthServer) Register(_ context.Context, req *auth.RegisterRequest) (*emptypb.Empty, error) {
 	registerRequest := convertRegisterRequest(req)
-	if registerErr := s.authSvc.Register(ctx, registerRequest); registerErr != nil {
+	if registerErr := s.authSvc.Register(context.Background(), registerRequest); registerErr != nil {
 		return nil, fmt.Errorf("registration error: %w", registerErr)
 	}
 

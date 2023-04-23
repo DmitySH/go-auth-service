@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/DmitySH/go-auth-service/internal/entity"
+	"golang.org/x/crypto/bcrypt"
 )
 
 var ErrNoUser = errors.New("no such user")
@@ -27,6 +28,17 @@ func (s *AuthService) Register(ctx context.Context, user entity.AuthUser) error 
 	}
 	if !errors.Is(getUserErr, ErrNoUser) {
 		return fmt.Errorf("can't check if user exists: %w", getUserErr)
+	}
+
+	hashedPassword, hashPwErr := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
+	if hashPwErr != nil {
+		return fmt.Errorf("can't create password hash: %w", hashPwErr)
+	}
+
+	user.Password = string(hashedPassword)
+
+	if createUserErr := s.repo.CreateUser(ctx, user); createUserErr != nil {
+		return fmt.Errorf("can't create user: %w", createUserErr)
 	}
 
 	return nil
