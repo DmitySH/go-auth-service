@@ -2,7 +2,8 @@ package auth
 
 import (
 	"github.com/DmitySH/go-auth-service/internal/repository"
-	"github.com/DmitySH/go-auth-service/internal/services"
+	"github.com/DmitySH/go-auth-service/internal/server"
+	"github.com/DmitySH/go-auth-service/internal/service"
 	"github.com/DmitySH/go-auth-service/pkg/api/auth"
 	"github.com/DmitySH/go-auth-service/pkg/grpcutils"
 	"github.com/spf13/viper"
@@ -28,13 +29,13 @@ func Run() {
 	}
 
 	authRepo := repository.NewAuthRepository(db)
-
-	authService := services.NewAuthService(authRepo)
+	authService := service.NewAuthService(authRepo)
+	authServer := server.NewAuthServer(authService)
 
 	var opts []grpc.ServerOption
 	grpcServer := grpc.NewServer(opts...)
 
-	auth.RegisterAuthServer(grpcServer, authService)
+	auth.RegisterAuthServer(grpcServer, authServer)
 
 	runSrvErr := grpcutils.RunAndShutdownServer(serverCfg, grpcServer)
 	if runSrvErr != nil {
