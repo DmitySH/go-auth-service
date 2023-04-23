@@ -15,7 +15,7 @@ func Run() {
 		Host: viper.GetString("SERVER_HOST"),
 		Port: viper.GetInt("SERVER_PORT"),
 	}
-	db, connectDbErr := repository.NewPostgresDB(repository.PostgresConfig{
+	db, connectDbErr := repository.NewPostgresDB(repository.DBConfig{
 		Host:     viper.GetString("DB_HOST"),
 		Port:     viper.GetInt("DB_PORT"),
 		Username: viper.GetString("DB_USERNAME"),
