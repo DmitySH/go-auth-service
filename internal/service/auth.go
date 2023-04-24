@@ -8,7 +8,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-var ErrNoUser = errors.New("no such user")
+var ErrEntityNotFound = errors.New("entity was not found")
 
 type AuthService struct {
 	repo AuthRepository
@@ -26,7 +26,7 @@ func (s *AuthService) Register(ctx context.Context, user entity.AuthUser) error 
 	if getUserErr == nil {
 		return fmt.Errorf("user with email = %s already registered", user.Email)
 	}
-	if !errors.Is(getUserErr, ErrNoUser) {
+	if !errors.Is(getUserErr, ErrEntityNotFound) {
 		return fmt.Errorf("can't check if user exists: %w", getUserErr)
 	}
 

@@ -32,7 +32,7 @@ func (r *AuthRepository) GetUserByEmail(ctx context.Context, email string) (enti
 	getUserErr := r.db.GetContext(ctx, &user, getUserSQL, args...)
 
 	if errors.Is(getUserErr, sql.ErrNoRows) {
-		return entity.AuthUser{}, service.ErrNoUser
+		return entity.AuthUser{}, service.ErrEntityNotFound
 	}
 	if getUserErr != nil {
 		return entity.AuthUser{}, fmt.Errorf("error during sql executing: %w", getUserErr)
