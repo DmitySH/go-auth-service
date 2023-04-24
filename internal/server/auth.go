@@ -39,5 +39,10 @@ func (s *AuthServer) Login(_ context.Context, req *auth.LoginRequest) (*auth.Log
 }
 
 func (s *AuthServer) Validate(_ context.Context, req *auth.ValidateRequest) (*auth.ValidateResponse, error) {
-	return &auth.ValidateResponse{UserId: 0}, nil
+	userEmail, validateErr := s.authSvc.Validate(context.Background(), req.Token)
+	if validateErr != nil {
+		return nil, fmt.Errorf("validate error: %w", validateErr)
+	}
+
+	return &auth.ValidateResponse{UserEmail: userEmail}, nil
 }

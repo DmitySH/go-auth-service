@@ -31,5 +31,5 @@ message ValidateRequest {
 }
 
 message ValidateResponse {
-  int64 userId = 1;
+  string userEmail = 1;
 }

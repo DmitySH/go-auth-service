@@ -38,7 +38,7 @@ func (g *JWTGenerator) Generate(userEmail string) (string, error) {
 	return signedToken, nil
 }
 
-func (g *JWTGenerator) Validate(signedToken string) (string, error) {
+func (g *JWTGenerator) ValidateAndGetEmail(signedToken string) (string, error) {
 	token, parseTokenErr := jwt.ParseWithClaims(
 		signedToken,
 		&jwtClaims{},
@@ -46,14 +46,14 @@ func (g *JWTGenerator) Validate(signedToken string) (string, error) {
 			return []byte(g.secretKey), nil
 		},
 	)
+
 	if parseTokenErr != nil {
-		return "", fmt.Errorf("can't parse jwt token: %w", parseTokenErr)
+		return "", errors.New("invalid token")
 	}
 
 	claims, ok := token.Claims.(*jwtClaims)
-
 	if !ok {
-		return "", errors.New("hhjsdhf")
+		return "", errors.New("invalid claims passed")
 	}
 
 	if claims.ExpiresAt < time.Now().Local().Unix() {

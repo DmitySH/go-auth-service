@@ -60,3 +60,17 @@ func (s *AuthService) Login(ctx context.Context, user entity.AuthUser) (string, 
 
 	return s.tokenGenerator.Generate(user.Email)
 }
+
+func (s *AuthService) Validate(ctx context.Context, token string) (string, error) {
+	userEmail, validateErr := s.tokenGenerator.ValidateAndGetEmail(token)
+	if validateErr != nil {
+		return "", validateErr
+	}
+
+	_, getUserErr := s.repo.GetUserByEmail(ctx, userEmail)
+	if errors.Is(getUserErr, ErrEntityNotFound) {
+		return "", fmt.Errorf("user with email = %s does not exist", userEmail)
+	}
+
+	return userEmail, nil
+}
