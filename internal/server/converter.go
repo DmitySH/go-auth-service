@@ -11,3 +11,10 @@ func convertRegisterRequest(req *auth.RegisterRequest) entity.AuthUser {
 		Password: req.GetPassword(),
 	}
 }
+
+func convertLoginRequest(req *auth.LoginRequest) entity.AuthUser {
+	return entity.AuthUser{
+		Email:    req.GetEmail(),
+		Password: req.GetPassword(),
+	}
+}

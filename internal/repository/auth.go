@@ -41,6 +41,28 @@ func (r *AuthRepository) GetUserByEmail(ctx context.Context, email string) (enti
 	return user, nil
 }
 
+func (r *AuthRepository) GetUserByEmailAndPassword(ctx context.Context, email string, password string) (entity.AuthUser, error) {
+	getUserSQL, args, buildSqlErr := r.psql.Select("*").
+		From(userTable).
+		Where(sq.Eq{"email": email, "password": password}).
+		ToSql()
+	if buildSqlErr != nil {
+		return entity.AuthUser{}, fmt.Errorf("can't build sql: %w", buildSqlErr)
+	}
+
+	var user entity.AuthUser
+	getUserErr := r.db.GetContext(ctx, &user, getUserSQL, args...)
+
+	if errors.Is(getUserErr, sql.ErrNoRows) {
+		return entity.AuthUser{}, service.ErrEntityNotFound
+	}
+	if getUserErr != nil {
+		return entity.AuthUser{}, fmt.Errorf("error during sql executing: %w", getUserErr)
+	}
+
+	return user, nil
+}
+
 func (r *AuthRepository) CreateUser(ctx context.Context, user entity.AuthUser) error {
 	createUserSQL, args, buildSqlErr := r.psql.Insert(userTable).
 		Columns("email", "password").

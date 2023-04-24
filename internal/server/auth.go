@@ -28,10 +28,16 @@ func (s *AuthServer) Register(_ context.Context, req *auth.RegisterRequest) (*em
 	return &emptypb.Empty{}, nil
 }
 
-func (s *AuthServer) Login(ctx context.Context, req *auth.LoginRequest) (*auth.LoginResponse, error) {
-	return &auth.LoginResponse{Token: ""}, nil
+func (s *AuthServer) Login(_ context.Context, req *auth.LoginRequest) (*auth.LoginResponse, error) {
+	loginRequest := convertLoginRequest(req)
+	token, loginErr := s.authSvc.Login(context.Background(), loginRequest)
+	if loginErr != nil {
+		return nil, fmt.Errorf("login error: %w", loginErr)
+	}
+
+	return &auth.LoginResponse{Token: token}, nil
 }
 
-func (s *AuthServer) Validate(ctx context.Context, req *auth.ValidateRequest) (*auth.ValidateResponse, error) {
+func (s *AuthServer) Validate(_ context.Context, req *auth.ValidateRequest) (*auth.ValidateResponse, error) {
 	return &auth.ValidateResponse{UserId: 0}, nil
 }

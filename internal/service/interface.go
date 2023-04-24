@@ -15,6 +15,12 @@ type Hasher interface {
 	CompareHashes(notHashed string, hashed string) bool
 }
 
+type TokenGenerator interface {
+	Generate(userEmail string) (string, error)
+	Validate(signedToken string) (string, error)
+}
+
 type Authorization interface {
 	Register(ctx context.Context, user entity.AuthUser) error
+	Login(ctx context.Context, user entity.AuthUser) (string, error)
 }

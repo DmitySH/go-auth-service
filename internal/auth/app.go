@@ -5,13 +5,17 @@ import (
 	"github.com/DmitySH/go-auth-service/internal/repository"
 	"github.com/DmitySH/go-auth-service/internal/server"
 	"github.com/DmitySH/go-auth-service/internal/service"
+	"github.com/DmitySH/go-auth-service/internal/tokengen"
 	"github.com/DmitySH/go-auth-service/pkg/api/auth"
 	"github.com/DmitySH/go-auth-service/pkg/grpcutils"
 	"github.com/spf13/viper"
 	"golang.org/x/crypto/bcrypt"
 	"google.golang.org/grpc"
 	"log"
+	"time"
 )
+
+const appName = "dmity-auth"
 
 func Run() {
 	serverCfg := grpcutils.GRPCServerConfig{
@@ -32,7 +36,8 @@ func Run() {
 
 	authRepo := repository.NewAuthRepository(db)
 	passwordHasher := hashser.NewBcryptHasher(bcrypt.DefaultCost)
-	authService := service.NewAuthService(authRepo, passwordHasher)
+	tokenGenerator := tokengen.NewJWTGenerator(viper.GetString("JWT_SECRET_KEY"), appName, time.Hour*24)
+	authService := service.NewAuthService(authRepo, passwordHasher, tokenGenerator)
 	authServer := server.NewAuthServer(authService)
 
 	var opts []grpc.ServerOption

@@ -10,14 +10,16 @@ import (
 var ErrEntityNotFound = errors.New("entity was not found")
 
 type AuthService struct {
-	repo   AuthRepository
-	hasher Hasher
+	repo           AuthRepository
+	hasher         Hasher
+	tokenGenerator TokenGenerator
 }
 
-func NewAuthService(repo AuthRepository, hasher Hasher) *AuthService {
+func NewAuthService(repo AuthRepository, hasher Hasher, tokenGenerator TokenGenerator) *AuthService {
 	return &AuthService{
-		repo:   repo,
-		hasher: hasher,
+		repo:           repo,
+		hasher:         hasher,
+		tokenGenerator: tokenGenerator,
 	}
 }
 
@@ -42,4 +44,19 @@ func (s *AuthService) Register(ctx context.Context, user entity.AuthUser) error 
 	}
 
 	return nil
+}
+
+func (s *AuthService) Login(ctx context.Context, user entity.AuthUser) (string, error) {
+	existingUser, getUserErr := s.repo.GetUserByEmail(ctx, user.Email)
+	if errors.Is(getUserErr, ErrEntityNotFound) {
+		return "", fmt.Errorf("user with email = %s does not exist", user.Email)
+	}
+	if getUserErr != nil {
+		return "", fmt.Errorf("can't check if user exists: %w", getUserErr)
+	}
+	if !s.hasher.CompareHashes(user.Password, existingUser.Password) {
+		return "", fmt.Errorf("incorrect password for user %s", user.Email)
+	}
+
+	return s.tokenGenerator.Generate(user.Email)
 }
