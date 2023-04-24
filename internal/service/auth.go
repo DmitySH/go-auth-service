@@ -5,18 +5,19 @@ import (
 	"errors"
 	"fmt"
 	"github.com/DmitySH/go-auth-service/internal/entity"
-	"golang.org/x/crypto/bcrypt"
 )
 
 var ErrEntityNotFound = errors.New("entity was not found")
 
 type AuthService struct {
-	repo AuthRepository
+	repo   AuthRepository
+	hasher Hasher
 }
 
-func NewAuthService(repo AuthRepository) *AuthService {
+func NewAuthService(repo AuthRepository, hasher Hasher) *AuthService {
 	return &AuthService{
-		repo: repo,
+		repo:   repo,
+		hasher: hasher,
 	}
 }
 
@@ -30,12 +31,11 @@ func (s *AuthService) Register(ctx context.Context, user entity.AuthUser) error 
 		return fmt.Errorf("can't check if user exists: %w", getUserErr)
 	}
 
-	hashedPassword, hashPwErr := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
+	hashedPassword, hashPwErr := s.hasher.Hash(user.Password)
 	if hashPwErr != nil {
 		return fmt.Errorf("can't create password hash: %w", hashPwErr)
 	}
-
-	user.Password = string(hashedPassword)
+	user.Password = hashedPassword
 
 	if createUserErr := s.repo.CreateUser(ctx, user); createUserErr != nil {
 		return fmt.Errorf("can't create user: %w", createUserErr)

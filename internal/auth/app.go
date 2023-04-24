@@ -1,12 +1,14 @@
 package auth
 
 import (
+	"github.com/DmitySH/go-auth-service/internal/hashser"
 	"github.com/DmitySH/go-auth-service/internal/repository"
 	"github.com/DmitySH/go-auth-service/internal/server"
 	"github.com/DmitySH/go-auth-service/internal/service"
 	"github.com/DmitySH/go-auth-service/pkg/api/auth"
 	"github.com/DmitySH/go-auth-service/pkg/grpcutils"
 	"github.com/spf13/viper"
+	"golang.org/x/crypto/bcrypt"
 	"google.golang.org/grpc"
 	"log"
 )
@@ -29,7 +31,8 @@ func Run() {
 	}
 
 	authRepo := repository.NewAuthRepository(db)
-	authService := service.NewAuthService(authRepo)
+	passwordHasher := hashser.NewBcryptHasher(bcrypt.DefaultCost)
+	authService := service.NewAuthService(authRepo, passwordHasher)
 	authServer := server.NewAuthServer(authService)
 
 	var opts []grpc.ServerOption

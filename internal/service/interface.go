@@ -10,6 +10,11 @@ type AuthRepository interface {
 	CreateUser(ctx context.Context, user entity.AuthUser) error
 }
 
+type Hasher interface {
+	Hash(toHash string) (string, error)
+	CompareHashes(notHashed string, hashed string) bool
+}
+
 type Authorization interface {
 	Register(ctx context.Context, user entity.AuthUser) error
 }
