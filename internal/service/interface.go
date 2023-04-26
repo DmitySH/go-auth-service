@@ -17,7 +17,7 @@ type Hasher interface {
 
 type TokenGenerator interface {
 	Generate(userEmail string) (string, error)
-	ValidateAndGetEmail(signedToken string) (string, error)
+	ValidateTokenAndGetEmail(signedToken string) (string, error)
 }
 
 type Authorization interface {

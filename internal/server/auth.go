@@ -3,8 +3,11 @@ package server
 import (
 	"context"
 	"fmt"
+	"github.com/DmitySH/go-auth-service/internal/autherrors"
 	"github.com/DmitySH/go-auth-service/internal/service"
 	"github.com/DmitySH/go-auth-service/pkg/api/auth"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/types/known/emptypb"
 )
 
@@ -21,7 +24,11 @@ func NewAuthServer(service service.Authorization) *AuthServer {
 
 func (s *AuthServer) Register(_ context.Context, req *auth.RegisterRequest) (*emptypb.Empty, error) {
 	registerRequest := convertRegisterRequest(req)
-	if registerErr := s.authSvc.Register(context.Background(), registerRequest); registerErr != nil {
+	registerErr := s.authSvc.Register(context.Background(), registerRequest)
+	if autherrors.Is(registerErr, autherrors.UserNotExists) {
+		return nil, status.Error(codes.AlreadyExists, registerErr.Error())
+	}
+	if registerErr != nil {
 		return nil, fmt.Errorf("registration error: %w", registerErr)
 	}
 
@@ -31,6 +38,13 @@ func (s *AuthServer) Register(_ context.Context, req *auth.RegisterRequest) (*em
 func (s *AuthServer) Login(_ context.Context, req *auth.LoginRequest) (*auth.LoginResponse, error) {
 	loginRequest := convertLoginRequest(req)
 	token, loginErr := s.authSvc.Login(context.Background(), loginRequest)
+	if autherrors.Is(loginErr, autherrors.UserNotExists) {
+		return nil, status.Error(codes.NotFound, loginErr.Error())
+	}
+	if autherrors.Is(loginErr, autherrors.UserInvalidPassword) {
+		return nil, status.Error(codes.PermissionDenied, loginErr.Error())
+	}
+
 	if loginErr != nil {
 		return nil, fmt.Errorf("login error: %w", loginErr)
 	}
@@ -40,6 +54,13 @@ func (s *AuthServer) Login(_ context.Context, req *auth.LoginRequest) (*auth.Log
 
 func (s *AuthServer) Validate(_ context.Context, req *auth.ValidateRequest) (*auth.ValidateResponse, error) {
 	userEmail, validateErr := s.authSvc.Validate(context.Background(), req.Token)
+	if autherrors.Is(validateErr, autherrors.InvalidToken) {
+		return nil, status.Error(codes.PermissionDenied, validateErr.Error())
+	}
+	if autherrors.Is(validateErr, autherrors.UserNotExists) {
+		return nil, status.Error(codes.NotFound, validateErr.Error())
+	}
+
 	if validateErr != nil {
 		return nil, fmt.Errorf("validate error: %w", validateErr)
 	}

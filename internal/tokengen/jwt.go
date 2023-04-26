@@ -38,7 +38,7 @@ func (g *JWTGenerator) Generate(userEmail string) (string, error) {
 	return signedToken, nil
 }
 
-func (g *JWTGenerator) ValidateAndGetEmail(signedToken string) (string, error) {
+func (g *JWTGenerator) ValidateTokenAndGetEmail(signedToken string) (string, error) {
 	token, parseTokenErr := jwt.ParseWithClaims(
 		signedToken,
 		&jwtClaims{},
@@ -48,7 +48,7 @@ func (g *JWTGenerator) ValidateAndGetEmail(signedToken string) (string, error) {
 	)
 
 	if parseTokenErr != nil {
-		return "", errors.New("invalid token")
+		return "", errors.New("can't parse token")
 	}
 
 	claims, ok := token.Claims.(*jwtClaims)

@@ -4,10 +4,9 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"github.com/DmitySH/go-auth-service/internal/autherrors"
 	"github.com/DmitySH/go-auth-service/internal/entity"
 )
-
-var ErrEntityNotFound = errors.New("entity was not found")
 
 type AuthService struct {
 	repo           AuthRepository
@@ -27,7 +26,7 @@ func (s *AuthService) Register(ctx context.Context, user entity.AuthUser) error 
 	_, getUserErr := s.repo.GetUserByEmail(ctx, user.Email)
 
 	if getUserErr == nil {
-		return fmt.Errorf("user with email = %s already registered", user.Email)
+		return autherrors.NewStatusError(autherrors.UserExists, nil)
 	}
 	if !errors.Is(getUserErr, ErrEntityNotFound) {
 		return fmt.Errorf("can't check if user exists: %w", getUserErr)
@@ -49,27 +48,27 @@ func (s *AuthService) Register(ctx context.Context, user entity.AuthUser) error 
 func (s *AuthService) Login(ctx context.Context, user entity.AuthUser) (string, error) {
 	existingUser, getUserErr := s.repo.GetUserByEmail(ctx, user.Email)
 	if errors.Is(getUserErr, ErrEntityNotFound) {
-		return "", fmt.Errorf("user with email = %s does not exist", user.Email)
+		return "", autherrors.NewStatusError(autherrors.UserNotExists, nil)
 	}
 	if getUserErr != nil {
 		return "", fmt.Errorf("can't check if user exists: %w", getUserErr)
 	}
 	if !s.hasher.CompareHashes(user.Password, existingUser.Password) {
-		return "", fmt.Errorf("incorrect password for user %s", user.Email)
+		return "", autherrors.NewStatusError(autherrors.UserInvalidPassword, nil)
 	}
 
 	return s.tokenGenerator.Generate(user.Email)
 }
 
 func (s *AuthService) Validate(ctx context.Context, token string) (string, error) {
-	userEmail, validateErr := s.tokenGenerator.ValidateAndGetEmail(token)
+	userEmail, validateErr := s.tokenGenerator.ValidateTokenAndGetEmail(token)
 	if validateErr != nil {
-		return "", validateErr
+		return "", autherrors.NewStatusError(autherrors.InvalidToken, validateErr)
 	}
 
 	_, getUserErr := s.repo.GetUserByEmail(ctx, userEmail)
 	if errors.Is(getUserErr, ErrEntityNotFound) {
-		return "", fmt.Errorf("user with email = %s does not exist", userEmail)
+		return "", autherrors.NewStatusError(autherrors.UserNotExists, nil)
 	}
 
 	return userEmail, nil
