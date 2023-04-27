@@ -14,5 +14,6 @@ COPY pkg pkg
 RUN go build -o auth-server ./cmd/auth/main.go
 
 EXPOSE 8940
+VOLUME /app/logs
 
 ENTRYPOINT ["./auth-server"]

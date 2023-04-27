@@ -9,13 +9,15 @@ import (
 )
 
 type AuthService struct {
+	logger         Logger
 	repo           AuthRepository
 	hasher         Hasher
 	tokenGenerator TokenGenerator
 }
 
-func NewAuthService(repo AuthRepository, hasher Hasher, tokenGenerator TokenGenerator) *AuthService {
+func NewAuthService(logger Logger, repo AuthRepository, hasher Hasher, tokenGenerator TokenGenerator) *AuthService {
 	return &AuthService{
+		logger:         logger,
 		repo:           repo,
 		hasher:         hasher,
 		tokenGenerator: tokenGenerator,

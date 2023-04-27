@@ -9,6 +9,8 @@ services:
       - "./configs/app.env"
     depends_on:
       - db
+    volumes:
+      - ./logs:/app/logs
 
   db:
     image: postgres:14.1
