@@ -25,7 +25,7 @@ func NewAuthServer(service service.Authorization) *AuthServer {
 func (s *AuthServer) Register(_ context.Context, req *auth.RegisterRequest) (*emptypb.Empty, error) {
 	registerRequest := convertRegisterRequest(req)
 	registerErr := s.authSvc.Register(context.Background(), registerRequest)
-	if autherrors.Is(registerErr, autherrors.UserNotExists) {
+	if autherrors.Is(registerErr, autherrors.UserExists) {
 		return nil, status.Error(codes.AlreadyExists, registerErr.Error())
 	}
 	if registerErr != nil {
