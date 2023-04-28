@@ -11,7 +11,7 @@ func LogInterceptor(ctx context.Context,
 	info *grpc.UnaryServerInfo,
 	handler grpc.UnaryHandler) (interface{}, error) {
 
-	log.Logger().Infof("called %s | parameters {%v}", info.FullMethod, req)
+	log.Logger().Infof("called %s method | parameters: {%v}", info.FullMethod, req)
 
 	return handler(ctx, req)
 }
