@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/DmitySH/go-auth-service/internal/autherrors"
 	"github.com/DmitySH/go-auth-service/internal/entity"
+	"net/mail"
 	"unicode"
 )
 
@@ -52,6 +53,11 @@ func (s *AuthService) Register(ctx context.Context, user entity.AuthUser) error 
 	if !errors.Is(getUserErr, ErrEntityNotFound) {
 		s.logger.Warnf(logPattern, registerMethod, getUserErr, logMap{"user": user})
 		return fmt.Errorf("can't check if user exists: %w", getUserErr)
+	}
+
+	if validateEmailErr := validateEmail(user.Email); validateEmailErr != nil {
+		s.logger.Printf(logPattern, registerMethod, autherrors.InvalidEmail, logMap{"user": user})
+		return autherrors.NewStatusError(autherrors.InvalidEmail, nil)
 	}
 
 	if validatePasswordErr := validatePassword(user.Password); validatePasswordErr != nil {
@@ -133,6 +139,15 @@ func validatePassword(s string) error {
 		return fmt.Errorf("too few digits: minimum is %d", minDigitsPassword)
 	case specials < minSpecialsPassword:
 		return fmt.Errorf("too few special symbols: minimum is %d", minSpecialsPassword)
+	}
+
+	return nil
+}
+
+func validateEmail(email string) error {
+	_, err := mail.ParseAddress(email)
+	if err != nil {
+		return errors.New("invalid email")
 	}
 
 	return nil

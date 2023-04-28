@@ -10,6 +10,16 @@ func Is(err error, status Status) bool {
 	return false
 }
 
+func OneOf(err error, statuses ...Status) bool {
+	for _, status := range statuses {
+		if Is(err, status) {
+			return true
+		}
+	}
+
+	return false
+}
+
 type StatusError struct {
 	errorStatus Status
 	innerError  error

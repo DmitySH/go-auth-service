@@ -28,7 +28,7 @@ func (s *AuthServer) Register(_ context.Context, req *auth.RegisterRequest) (*em
 	if autherrors.Is(registerErr, autherrors.UserExists) {
 		return nil, status.Error(codes.AlreadyExists, registerErr.Error())
 	}
-	if autherrors.Is(registerErr, autherrors.WeakPassword) {
+	if autherrors.OneOf(registerErr, autherrors.WeakPassword, autherrors.InvalidEmail) {
 		return nil, status.Error(codes.InvalidArgument, registerErr.Error())
 	}
 	if registerErr != nil {

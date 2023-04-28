@@ -8,6 +8,7 @@ const (
 	UserInvalidPassword Status = "user password is invalid"
 
 	InvalidToken Status = "token is invalid"
+	InvalidEmail Status = "email is invalid"
 	WeakPassword Status = "password is too weak"
 )
 
