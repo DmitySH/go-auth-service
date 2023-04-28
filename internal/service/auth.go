@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/DmitySH/go-auth-service/internal/autherrors"
 	"github.com/DmitySH/go-auth-service/internal/entity"
+	"unicode"
 )
 
 const logPattern = "method: %s | error: %v | parameters: %v"
@@ -14,6 +15,13 @@ const (
 	registerMethod = "register"
 	loginMethod    = "login"
 	validateMethod = "validate"
+)
+
+const (
+	minLettersPassword  = 6
+	minUppersPassword   = 2
+	minSpecialsPassword = 2
+	minDigitsPassword   = 2
 )
 
 type logMap map[string]interface{}
@@ -44,6 +52,11 @@ func (s *AuthService) Register(ctx context.Context, user entity.AuthUser) error 
 	if !errors.Is(getUserErr, ErrEntityNotFound) {
 		s.logger.Warnf(logPattern, registerMethod, getUserErr, logMap{"user": user})
 		return fmt.Errorf("can't check if user exists: %w", getUserErr)
+	}
+
+	if validatePasswordErr := validatePassword(user.Password); validatePasswordErr != nil {
+		s.logger.Printf(logPattern, registerMethod, validatePasswordErr, logMap{"user": user})
+		return autherrors.NewStatusError(autherrors.WeakPassword, validatePasswordErr)
 	}
 
 	hashedPassword, hashPwErr := s.hasher.Hash(user.Password)
@@ -93,4 +106,34 @@ func (s *AuthService) Validate(ctx context.Context, token string) (string, error
 	}
 
 	return userEmail, nil
+}
+
+func validatePassword(s string) error {
+	letters, specials, digits, uppers := 0, 0, 0, 0
+	for _, c := range s {
+		switch {
+		case unicode.IsNumber(c):
+			digits++
+		case unicode.IsUpper(c):
+			uppers++
+			letters++
+		case unicode.IsPunct(c) || unicode.IsSymbol(c):
+			specials++
+		case unicode.IsLetter(c) || c == ' ':
+			letters++
+		}
+	}
+
+	switch {
+	case letters < minLettersPassword:
+		return fmt.Errorf("too few letters: minimum is %d", minLettersPassword)
+	case uppers < minUppersPassword:
+		return fmt.Errorf("too few uppercase letters: minimum is %d", minUppersPassword)
+	case digits < minDigitsPassword:
+		return fmt.Errorf("too few digits: minimum is %d", minDigitsPassword)
+	case specials < minSpecialsPassword:
+		return fmt.Errorf("too few special symbols: minimum is %d", minSpecialsPassword)
+	}
+
+	return nil
 }

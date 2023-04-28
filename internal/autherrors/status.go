@@ -8,6 +8,7 @@ const (
 	UserInvalidPassword Status = "user password is invalid"
 
 	InvalidToken Status = "token is invalid"
+	WeakPassword Status = "password is too weak"
 )
 
 type st interface {
