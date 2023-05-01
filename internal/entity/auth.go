@@ -11,5 +11,5 @@ type AuthUser struct {
 type Session struct {
 	ID          uuid.UUID
 	Fingerprint uuid.UUID
-	UserID      int64
+	UserID      int64 `db:"user_id"`
 }

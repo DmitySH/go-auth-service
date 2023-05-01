@@ -4,9 +4,9 @@ import (
 	"errors"
 	"fmt"
 	"github.com/DmitySH/go-auth-service/internal/entity"
+	"github.com/DmitySH/go-auth-service/internal/service"
 	"github.com/golang-jwt/jwt"
 	"github.com/google/uuid"
-	"log"
 	"time"
 )
 
@@ -17,7 +17,7 @@ type jwtAccessClaims struct {
 
 type jwtRefreshClaims struct {
 	jwt.StandardClaims
-	UUID uuid.UUID
+	SessionUUID uuid.UUID
 }
 
 type JWTGenerator struct {
@@ -28,21 +28,20 @@ type JWTGenerator struct {
 	refreshTTL       time.Duration
 }
 
-func (g *JWTGenerator) GenerateTokenPair(userEmail string) (entity.TokenPair, error) {
+func (g *JWTGenerator) GenerateTokenPair(userEmail string, sessionUUID uuid.UUID) (entity.TokenPair, error) {
 	accessToken, accessTokenErr := g.generateAccessToken(userEmail)
 	if accessTokenErr != nil {
 		return entity.TokenPair{}, accessTokenErr
 	}
-	refreshTokenUUID := uuid.New()
-	refreshToken, refreshTokenErr := g.generateRefreshToken(refreshTokenUUID)
+
+	refreshToken, refreshTokenErr := g.generateRefreshToken(sessionUUID)
 	if refreshTokenErr != nil {
 		return entity.TokenPair{}, refreshTokenErr
 	}
 
 	return entity.TokenPair{
-		Access:      accessToken,
-		Refresh:     refreshToken,
-		RefreshUUID: refreshTokenUUID,
+		Access:  accessToken,
+		Refresh: refreshToken,
 	}, nil
 }
 
@@ -64,9 +63,9 @@ func (g *JWTGenerator) generateAccessToken(userEmail string) (string, error) {
 	return signedToken, nil
 }
 
-func (g *JWTGenerator) generateRefreshToken(refreshTokenUUID uuid.UUID) (string, error) {
+func (g *JWTGenerator) generateRefreshToken(sessionUUID uuid.UUID) (string, error) {
 	claims := &jwtRefreshClaims{
-		UUID: refreshTokenUUID,
+		SessionUUID: sessionUUID,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: time.Now().Local().Add(g.refreshTTL).Unix(),
 			Issuer:    g.issuer,
@@ -97,7 +96,6 @@ func (g *JWTGenerator) ValidateAccessTokenAndGetEmail(signedToken string) (strin
 	}
 
 	if parseTokenErr != nil {
-		log.Println(parseTokenErr)
 		return "", errors.New("can't parse token")
 	}
 
@@ -111,6 +109,36 @@ func (g *JWTGenerator) ValidateAccessTokenAndGetEmail(signedToken string) (strin
 	}
 
 	return claims.Email, nil
+}
+
+func (g *JWTGenerator) ValidateRefreshTokenAndGetSessionUUID(signedToken string) (uuid.UUID, error) {
+	token, parseTokenErr := jwt.ParseWithClaims(signedToken, &jwtRefreshClaims{},
+		func(token *jwt.Token) (interface{}, error) {
+			return []byte(g.secretRefreshKey), nil
+		},
+	)
+
+	var ve *jwt.ValidationError
+	if errors.As(parseTokenErr, &ve) {
+		if ve.Errors&jwt.ValidationErrorExpired != 0 {
+			return uuid.UUID{}, service.ErrSessionExpired
+		}
+	}
+
+	if parseTokenErr != nil {
+		return uuid.UUID{}, errors.New("can't parse token")
+	}
+
+	claims, ok := token.Claims.(*jwtRefreshClaims)
+	if !ok {
+		return uuid.UUID{}, errors.New("invalid claims passed")
+	}
+
+	if claims.Issuer != g.issuer {
+		return uuid.UUID{}, errors.New("invalid issuer")
+	}
+
+	return claims.SessionUUID, nil
 }
 
 func NewJWTGenerator(secretAccessKey, secretRefreshKey, issuer string,

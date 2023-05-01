@@ -12,6 +12,9 @@ const (
 	WeakPassword Status = "password is too weak"
 
 	InvalidFingerprint Status = "fingerprint must be correct uuid"
+
+	SessionNotExists Status = "session doesn't exist"
+	InvalidSession   Status = "session is invalid"
 )
 
 type st interface {

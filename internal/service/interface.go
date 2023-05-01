@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 	"github.com/DmitySH/go-auth-service/internal/entity"
+	"github.com/google/uuid"
 )
 
 type Logger interface {
@@ -15,9 +16,12 @@ type Logger interface {
 }
 
 type AuthRepository interface {
-	GetUserByEmail(ctx context.Context, email string) (entity.AuthUser, error)
 	CreateUser(ctx context.Context, user entity.AuthUser) error
 	CreateSession(ctx context.Context, session entity.Session) error
+	GetUserByEmail(ctx context.Context, email string) (entity.AuthUser, error)
+	GetUserByID(ctx context.Context, id int64) (entity.AuthUser, error)
+	GetSessionByUUID(ctx context.Context, sessionUUID uuid.UUID) (entity.Session, error)
+	DeleteSessionByUUID(ctx context.Context, sessionUUID uuid.UUID) error
 }
 
 type Hasher interface {
@@ -26,12 +30,14 @@ type Hasher interface {
 }
 
 type TokenGenerator interface {
-	GenerateTokenPair(userEmail string) (entity.TokenPair, error)
+	GenerateTokenPair(userEmail string, sessionUUID uuid.UUID) (entity.TokenPair, error)
 	ValidateAccessTokenAndGetEmail(signedToken string) (string, error)
+	ValidateRefreshTokenAndGetSessionUUID(signedToken string) (uuid.UUID, error)
 }
 
 type Authorization interface {
 	Register(ctx context.Context, user entity.AuthUser) error
 	Login(ctx context.Context, user entity.AuthUser, fingerprint string) (entity.TokenPair, error)
-	Validate(ctx context.Context, token string) (string, error)
+	Validate(ctx context.Context, accessToken string) (string, error)
+	Refresh(ctx context.Context, refreshToken string, fingerprint string) (entity.TokenPair, error)
 }

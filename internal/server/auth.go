@@ -2,7 +2,6 @@ package server
 
 import (
 	"context"
-	"fmt"
 	"github.com/DmitySH/go-auth-service/internal/autherrors"
 	"github.com/DmitySH/go-auth-service/internal/service"
 	"github.com/DmitySH/go-auth-service/pkg/api/auth"
@@ -32,7 +31,7 @@ func (s *AuthServer) Register(_ context.Context, req *auth.RegisterRequest) (*em
 		return nil, status.Error(codes.InvalidArgument, registerErr.Error())
 	}
 	if registerErr != nil {
-		return nil, fmt.Errorf("registration error: %w", registerErr)
+		return nil, status.Error(codes.Internal, registerErr.Error())
 	}
 
 	return &emptypb.Empty{}, nil
@@ -40,7 +39,7 @@ func (s *AuthServer) Register(_ context.Context, req *auth.RegisterRequest) (*em
 
 func (s *AuthServer) Login(_ context.Context, req *auth.LoginRequest) (*auth.LoginResponse, error) {
 	loginRequest := convertLoginRequest(req)
-	tokenPair, loginErr := s.authSvc.Login(context.Background(), loginRequest, req.Fingerprint)
+	tokenPair, loginErr := s.authSvc.Login(context.Background(), loginRequest, req.GetFingerprint())
 	if autherrors.Is(loginErr, autherrors.UserNotExists) {
 		return nil, status.Error(codes.NotFound, loginErr.Error())
 	}
@@ -52,24 +51,40 @@ func (s *AuthServer) Login(_ context.Context, req *auth.LoginRequest) (*auth.Log
 	}
 
 	if loginErr != nil {
-		return nil, fmt.Errorf("login error: %w", loginErr)
+		return nil, status.Error(codes.Internal, loginErr.Error())
 	}
 
 	return &auth.LoginResponse{AccessToken: tokenPair.Access, RefreshToken: tokenPair.Refresh}, nil
 }
 
 func (s *AuthServer) Validate(_ context.Context, req *auth.ValidateRequest) (*auth.ValidateResponse, error) {
-	userEmail, validateErr := s.authSvc.Validate(context.Background(), req.AccessToken)
+	userEmail, validateErr := s.authSvc.Validate(context.Background(), req.GetAccessToken())
 	if autherrors.Is(validateErr, autherrors.InvalidToken) {
 		return nil, status.Error(codes.PermissionDenied, validateErr.Error())
 	}
-	if autherrors.Is(validateErr, autherrors.UserNotExists) {
-		return nil, status.Error(codes.NotFound, validateErr.Error())
-	}
 
 	if validateErr != nil {
-		return nil, fmt.Errorf("validate error: %w", validateErr)
+		return nil, status.Error(codes.Internal, validateErr.Error())
 	}
 
 	return &auth.ValidateResponse{UserEmail: userEmail}, nil
+}
+
+func (s *AuthServer) Refresh(_ context.Context, req *auth.RefreshRequest) (*auth.RefreshResponse, error) {
+	tokenPair, refreshErr := s.authSvc.Refresh(context.Background(), req.GetRefreshToken(), req.GetFingerprint())
+	if autherrors.Is(refreshErr, autherrors.InvalidFingerprint) {
+		return nil, status.Error(codes.InvalidArgument, refreshErr.Error())
+	}
+	if autherrors.OneOf(refreshErr, autherrors.InvalidSession, autherrors.InvalidToken) {
+		return nil, status.Error(codes.PermissionDenied, refreshErr.Error())
+	}
+	if autherrors.OneOf(refreshErr, autherrors.UserExists, autherrors.SessionNotExists) {
+		return nil, status.Error(codes.NotFound, refreshErr.Error())
+	}
+
+	if refreshErr != nil {
+		return nil, status.Error(codes.Internal, refreshErr.Error())
+	}
+
+	return &auth.RefreshResponse{AccessToken: tokenPair.Access, RefreshToken: tokenPair.Refresh}, nil
 }
