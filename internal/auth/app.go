@@ -13,7 +13,6 @@ import (
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 	easy "github.com/t-tomalak/logrus-easy-formatter"
-	"golang.org/x/crypto/bcrypt"
 	"google.golang.org/grpc"
 	"io"
 	defaultlog "log"
@@ -62,8 +61,9 @@ func Run() {
 	}
 
 	authRepo := repository.NewAuthRepository(db)
-	passwordHasher := hashser.NewBcryptHasher(bcrypt.DefaultCost)
-	tokenGenerator := tokengen.NewJWTGenerator(viper.GetString("JWT_SECRET_KEY"), appName, time.Hour*24)
+	passwordHasher := hashser.NewBcryptHasher(viper.GetInt("BCRYPT_COST"))
+	tokenGenerator := tokengen.NewJWTGenerator(viper.GetString("JWT_SECRET_KEY"), appName,
+		time.Minute*time.Duration(viper.GetInt("JWT_ACCESS_TOKEN_MINUTES_TTL")))
 	authService := service.NewAuthService(logger, authRepo, passwordHasher, tokenGenerator)
 	authServer := server.NewAuthServer(authService)
 
