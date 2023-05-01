@@ -80,26 +80,26 @@ func (s *AuthService) Register(ctx context.Context, user entity.AuthUser) error 
 	return nil
 }
 
-func (s *AuthService) Login(ctx context.Context, user entity.AuthUser) (string, error) {
+func (s *AuthService) Login(ctx context.Context, user entity.AuthUser) (entity.TokenPair, error) {
 	existingUser, getUserErr := s.repo.GetUserByEmail(ctx, user.Email)
 	if errors.Is(getUserErr, ErrEntityNotFound) {
 		s.logger.Printf(logPattern, loginMethod, autherrors.UserNotExists, logMap{"user": user})
-		return "", autherrors.NewStatusError(autherrors.UserNotExists, nil)
+		return entity.TokenPair{}, autherrors.NewStatusError(autherrors.UserNotExists, nil)
 	}
 	if getUserErr != nil {
 		s.logger.Warnf(logPattern, loginMethod, getUserErr, logMap{"user": user})
-		return "", fmt.Errorf("can't check if user exists: %w", getUserErr)
+		return entity.TokenPair{}, fmt.Errorf("can't check if user exists: %w", getUserErr)
 	}
 	if !s.hasher.CompareHashes(user.Password, existingUser.Password) {
 		s.logger.Printf(logPattern, loginMethod, autherrors.UserInvalidPassword, logMap{"user": user})
-		return "", autherrors.NewStatusError(autherrors.UserInvalidPassword, nil)
+		return entity.TokenPair{}, autherrors.NewStatusError(autherrors.UserInvalidPassword, nil)
 	}
 
-	return s.tokenGenerator.Generate(user.Email)
+	return s.tokenGenerator.GenerateTokenPair(user.Email)
 }
 
 func (s *AuthService) Validate(ctx context.Context, token string) (string, error) {
-	userEmail, validateErr := s.tokenGenerator.ValidateTokenAndGetEmail(token)
+	userEmail, validateErr := s.tokenGenerator.ValidateAccessTokenAndGetEmail(token)
 	if validateErr != nil {
 		s.logger.Printf(logPattern, validateMethod, autherrors.InvalidToken, logMap{"token": token})
 		return "", autherrors.NewStatusError(autherrors.InvalidToken, validateErr)

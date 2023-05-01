@@ -6,9 +6,10 @@ package auth;
 
 
 service Auth {
-  rpc Register(RegisterRequest) returns (google.protobuf.Empty) {}
-  rpc Login(LoginRequest) returns (LoginResponse) {}
-  rpc Validate(ValidateRequest) returns (ValidateResponse) {}
+  rpc Register(RegisterRequest) returns (google.protobuf.Empty);
+  rpc Login(LoginRequest) returns (LoginResponse);
+  rpc Validate(ValidateRequest) returns (ValidateResponse);
+  rpc Refresh(ValidateRequest) returns (ValidateResponse);
 }
 
 
@@ -23,13 +24,22 @@ message LoginRequest {
 }
 
 message LoginResponse {
-  string token = 1;
+  string accessToken = 1;
+  string refreshToken = 2;
 }
 
 message ValidateRequest {
-  string token = 1;
+  string accessToken = 1;
 }
 
 message ValidateResponse {
   string userEmail = 1;
+}
+
+message RefreshRequest {
+  string refreshToken = 1;
+}
+
+message RefreshResponse {
+  string accessToken = 1;
 }

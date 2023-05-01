@@ -25,6 +25,8 @@ const (
 	logPath = "logs/log.log"
 )
 
+const day = time.Hour * 24
+
 func Run() {
 	logFile, openFileErr := os.OpenFile(logPath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 	if openFileErr != nil {
@@ -62,8 +64,13 @@ func Run() {
 
 	authRepo := repository.NewAuthRepository(db)
 	passwordHasher := hashser.NewBcryptHasher(viper.GetInt("BCRYPT_COST"))
-	tokenGenerator := tokengen.NewJWTGenerator(viper.GetString("JWT_SECRET_KEY"), appName,
-		time.Minute*time.Duration(viper.GetInt("JWT_ACCESS_TOKEN_MINUTES_TTL")))
+	tokenGenerator := tokengen.NewJWTGenerator(
+		viper.GetString("JWT_ACCESS_TOKEN_SECRET_KEY"),
+		viper.GetString("JWT_REFRESH_TOKEN_SECRET_KEY"),
+		appName,
+		time.Minute*time.Duration(viper.GetInt("JWT_ACCESS_TOKEN_MINUTES_TTL")),
+		day*time.Duration(viper.GetInt("JWT_REFRESH_TOKEN_DAYS_TTL")))
+
 	authService := service.NewAuthService(logger, authRepo, passwordHasher, tokenGenerator)
 	authServer := server.NewAuthServer(authService)
 

@@ -25,12 +25,12 @@ type Hasher interface {
 }
 
 type TokenGenerator interface {
-	Generate(userEmail string) (string, error)
-	ValidateTokenAndGetEmail(signedToken string) (string, error)
+	GenerateTokenPair(userEmail string) (entity.TokenPair, error)
+	ValidateAccessTokenAndGetEmail(signedToken string) (string, error)
 }
 
 type Authorization interface {
 	Register(ctx context.Context, user entity.AuthUser) error
-	Login(ctx context.Context, user entity.AuthUser) (string, error)
+	Login(ctx context.Context, user entity.AuthUser) (entity.TokenPair, error)
 	Validate(ctx context.Context, token string) (string, error)
 }

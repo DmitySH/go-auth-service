@@ -3,6 +3,7 @@ package tokengen
 import (
 	"errors"
 	"fmt"
+	"github.com/DmitySH/go-auth-service/internal/entity"
 	"github.com/golang-jwt/jwt"
 	"log"
 	"time"
@@ -14,37 +15,70 @@ type jwtClaims struct {
 }
 
 type JWTGenerator struct {
-	secretKey string
-	issuer    string
-	ttl       time.Duration
+	secretAccessKey  string
+	secretRefreshKey string
+	issuer           string
+	accessTTL        time.Duration
+	refreshTTL       time.Duration
 }
 
-func (g *JWTGenerator) Generate(userEmail string) (string, error) {
+func (g *JWTGenerator) GenerateTokenPair(userEmail string) (entity.TokenPair, error) {
+	accessToken, accessTokenErr := g.generateAccessToken(userEmail)
+	if accessTokenErr != nil {
+		return entity.TokenPair{}, accessTokenErr
+	}
+
+	refreshToken, refreshTokenErr := g.generateRefreshToken(userEmail)
+	if refreshTokenErr != nil {
+		return entity.TokenPair{}, accessTokenErr
+	}
+
+	return entity.TokenPair{
+		Access:  accessToken,
+		Refresh: refreshToken,
+	}, nil
+}
+
+func (g *JWTGenerator) generateAccessToken(userEmail string) (string, error) {
 	claims := &jwtClaims{
 		Email: userEmail,
 		StandardClaims: jwt.StandardClaims{
-			ExpiresAt: time.Now().Local().Add(g.ttl).Unix(),
+			ExpiresAt: time.Now().Local().Add(g.accessTTL).Unix(),
 			Issuer:    g.issuer,
 		},
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-
-	signedToken, signErr := token.SignedString([]byte(g.secretKey))
-
+	signedToken, signErr := token.SignedString([]byte(g.secretAccessKey))
 	if signErr != nil {
-		return "", fmt.Errorf("can't sign token:%w", signErr)
+		return "", fmt.Errorf("can't sign access token:%w", signErr)
 	}
 
 	return signedToken, nil
 }
 
-func (g *JWTGenerator) ValidateTokenAndGetEmail(signedToken string) (string, error) {
-	token, parseTokenErr := jwt.ParseWithClaims(
-		signedToken,
-		&jwtClaims{},
+func (g *JWTGenerator) generateRefreshToken(userEmail string) (string, error) {
+	claims := &jwtClaims{
+		Email: userEmail,
+		StandardClaims: jwt.StandardClaims{
+			ExpiresAt: time.Now().Local().Add(g.refreshTTL).Unix(),
+			Issuer:    g.issuer,
+		},
+	}
+
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	signedToken, signErr := token.SignedString([]byte(g.secretRefreshKey))
+	if signErr != nil {
+		return "", fmt.Errorf("can't sign refresh token:%w", signErr)
+	}
+
+	return signedToken, nil
+}
+
+func (g *JWTGenerator) ValidateAccessTokenAndGetEmail(signedToken string) (string, error) {
+	token, parseTokenErr := jwt.ParseWithClaims(signedToken, &jwtClaims{},
 		func(token *jwt.Token) (interface{}, error) {
-			return []byte(g.secretKey), nil
+			return []byte(g.secretAccessKey), nil
 		},
 	)
 
@@ -65,10 +99,6 @@ func (g *JWTGenerator) ValidateTokenAndGetEmail(signedToken string) (string, err
 		return "", errors.New("invalid claims passed")
 	}
 
-	if claims.ExpiresAt < time.Now().Local().Unix() {
-		return "", errors.New("token has expired")
-	}
-
 	if claims.Issuer != g.issuer {
 		return "", errors.New("invalid issuer")
 	}
@@ -76,10 +106,13 @@ func (g *JWTGenerator) ValidateTokenAndGetEmail(signedToken string) (string, err
 	return claims.Email, nil
 }
 
-func NewJWTGenerator(secretKey, issuer string, ttl time.Duration) *JWTGenerator {
+func NewJWTGenerator(secretAccessKey, secretRefreshKey, issuer string,
+	accessTTL, refreshTTL time.Duration) *JWTGenerator {
 	return &JWTGenerator{
-		secretKey: secretKey,
-		issuer:    issuer,
-		ttl:       ttl,
+		secretAccessKey:  secretAccessKey,
+		secretRefreshKey: secretRefreshKey,
+		issuer:           issuer,
+		accessTTL:        accessTTL,
+		refreshTTL:       refreshTTL,
 	}
 }

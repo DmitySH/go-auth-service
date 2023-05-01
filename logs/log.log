@@ -1,0 +1,62 @@
+[INFO]: 2023-04-28 13:20:02 - called /auth.Auth/Register method | parameters: {email:"1dd233"  password:"qwerty123"}
+[INFO]: 2023-04-28 13:20:02 - method: register | error: too few uppercase letters: minimum is 2 | parameters: map[user:{0 1dd233 qwerty123}]
+[INFO]: 2023-04-28 13:22:04 - called /auth.Auth/Register method | parameters: {email:"1dd233"  password:"qwerty123"}
+[INFO]: 2023-04-28 13:22:05 - method: register | error: too few uppercase letters: minimum is 2 | parameters: map[user:{0 1dd233 qwerty123}]
+[INFO]: 2023-04-28 13:22:14 - called /auth.Auth/Register method | parameters: {email:"1dd233"  password:"qwSDFerty123"}
+[INFO]: 2023-04-28 13:22:14 - method: register | error: too few special symbols: minimum is 2 | parameters: map[user:{0 1dd233 qwSDFerty123}]
+[INFO]: 2023-04-28 13:22:19 - called /auth.Auth/Register method | parameters: {email:"1dd233"  password:"qwSDFerty@3#123"}
+[INFO]: 2023-04-28 13:22:21 - called /auth.Auth/Register method | parameters: {email:"1dd233"  password:"qwSDFerty@3#123"}
+[INFO]: 2023-04-28 13:22:21 - method: register | error: user already exists | parameters: map[user:{0 1dd233 qwSDFerty@3#123}]
+[INFO]: 2023-04-28 13:22:27 - called /auth.Auth/Register method | parameters: {email:"1dd2233"  password:"qwSDFerty@3#123"}
+[INFO]: 2023-04-28 13:22:32 - called /auth.Auth/Register method | parameters: {email:"1dd2233"  password:"qw123"}
+[INFO]: 2023-04-28 13:22:32 - method: register | error: user already exists | parameters: map[user:{0 1dd2233 qw123}]
+[INFO]: 2023-04-28 13:22:34 - called /auth.Auth/Register method | parameters: {email:"1dd12233"  password:"qw123"}
+[INFO]: 2023-04-28 13:22:34 - method: register | error: too few letters: minimum is 6 | parameters: map[user:{0 1dd12233 qw123}]
+[INFO]: 2023-04-28 13:30:26 - called /auth.Auth/Register method | parameters: {email:"1dd12233" password:"qw123"}
+[INFO]: 2023-04-28 13:30:26 - method: register | error: too few letters: minimum is 6 | parameters: map[user:{0 1dd12233 qw123}]
+[INFO]: 2023-04-28 13:33:16 - called /auth.Auth/Register method | parameters: {email:"1dd1d2233"  password:"qw123"}
+[INFO]: 2023-04-28 13:33:16 - method: register | error: email is invalid | parameters: map[user:{0 1dd1d2233 qw123}]
+[INFO]: 2023-04-28 13:33:25 - called /auth.Auth/Register method | parameters: {email:"1dd1d2233"  password:"qw123"}
+[INFO]: 2023-04-28 13:33:25 - method: register | error: email is invalid | parameters: map[user:{0 1dd1d2233 qw123}]
+[INFO]: 2023-04-28 13:33:56 - called /auth.Auth/Register method | parameters: {email:"1dd1d2233"  password:"qw123"}
+[INFO]: 2023-04-28 13:33:56 - method: register | error: email is invalid | parameters: map[user:{0 1dd1d2233 qw123}]
+[INFO]: 2023-04-28 13:38:19 - called /auth.Auth/Register method | parameters: {email:"1dd1d2233"  password:"qw123"}
+[INFO]: 2023-04-28 13:38:19 - method: register | error: email is invalid | parameters: map[user:{0 1dd1d2233 qw123}]
+[INFO]: 2023-04-28 13:38:25 - called /auth.Auth/Register method | parameters: {email:"1dd1d2@233"  password:"qw123"}
+[INFO]: 2023-04-28 13:38:25 - method: register | error: too few letters: minimum is 6 | parameters: map[user:{0 1dd1d2@233 qw123}]
+[INFO]: 2023-05-01 10:52:28 - called /auth.Auth/Validate method | parameters: {token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODI3NTMyNjMsImlzcyI6ImRtaXR5LWF1dGgiLCJFbWFpbCI6IjEyMyJ9.CCHniVvjbqAaYsI5DlRaIiCf-yyEJj2u7hJ1jwdQy10"}
+[INFO]: 2023-05-01 10:52:28 - method: validate | error: token is invalid | parameters: map[token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODI3NTMyNjMsImlzcyI6ImRtaXR5LWF1dGgiLCJFbWFpbCI6IjEyMyJ9.CCHniVvjbqAaYsI5DlRaIiCf-yyEJj2u7hJ1jwdQy10]
+[INFO]: 2023-05-01 10:52:32 - called /auth.Auth/Register method | parameters: {email:"1dd1d2@233" password:"qw123"}
+[INFO]: 2023-05-01 10:52:32 - method: register | error: too few letters: minimum is 6 | parameters: map[user:{0 1dd1d2@233 qw123}]
+[INFO]: 2023-05-01 10:52:37 - called /auth.Auth/Login method | parameters: {email:"123" password:"qwerty12"}
+[INFO]: 2023-05-01 10:52:49 - called /auth.Auth/Validate method | parameters: {token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODI5Mzg0MTcsImlzcyI6ImRtaXR5LWF1dGgiLCJFbWFpbCI6IjEyMyJ9.mfWRvm2ty1jDu5dipt45KRm_b9cjU-8-q0rj2BPezjo"}
+[INFO]: 2023-05-01 10:59:00 - called /auth.Auth/Validate method | parameters: {token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODI5Mzg0MTcsImlzcyI6ImRtaXR5LWF1dGgiLCJFbWFpbCI6IjEyMyJ9.mfWRvm2ty1jDu5dipt45KRm_b9cjU-8-q0rj2BPezjo"}
+[INFO]: 2023-05-01 10:59:00 - method: validate | error: token is invalid | parameters: map[token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODI5Mzg0MTcsImlzcyI6ImRtaXR5LWF1dGgiLCJFbWFpbCI6IjEyMyJ9.mfWRvm2ty1jDu5dipt45KRm_b9cjU-8-q0rj2BPezjo]
+[INFO]: 2023-05-01 11:00:07 - called /auth.Auth/Validate method | parameters: {token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODI5Mzg0MTcsImlzcyI6ImRtaXR5LWF1dGgiLCJFbWFpbCI6IjEyMyJ9.mfWRvm2ty1jDu5dipt45KRm_b9cjU-8-q0rj2BPezjo"}
+[INFO]: 2023-05-01 11:00:07 - method: validate | error: token is invalid | parameters: map[token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODI5Mzg0MTcsImlzcyI6ImRtaXR5LWF1dGgiLCJFbWFpbCI6IjEyMyJ9.mfWRvm2ty1jDu5dipt45KRm_b9cjU-8-q0rj2BPezjo]
+[INFO]: 2023-05-01 11:01:07 - called /auth.Auth/Validate method | parameters: {token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODI5Mzg0MTcsImlzcyI6ImRtaXR5LWF1dGgiLCJFbWFpbCI6IjEyMyJ9.mfWRvm2ty1jDu5dipt45KRm_b9cjU-8-q0rj2BPezjo"}
+[INFO]: 2023-05-01 11:01:07 - method: validate | error: token is invalid | parameters: map[token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODI5Mzg0MTcsImlzcyI6ImRtaXR5LWF1dGgiLCJFbWFpbCI6IjEyMyJ9.mfWRvm2ty1jDu5dipt45KRm_b9cjU-8-q0rj2BPezjo]
+[INFO]: 2023-05-01 11:01:15 - called /auth.Auth/Login method | parameters: {email:"123" password:"qwerty12"}
+[INFO]: 2023-05-01 11:01:21 - called /auth.Auth/Validate method | parameters: {token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODI5Mzg5MzUsImlzcyI6ImRtaXR5LWF1dGhhIiwiRW1haWwiOiIxMjMifQ.1pyWDuzH74hw47fmgEv6ZUGw2TyMorZh25nKaToSufQ"}
+[INFO]: 2023-05-01 11:01:21 - method: validate | error: token is invalid | parameters: map[token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODI5Mzg5MzUsImlzcyI6ImRtaXR5LWF1dGhhIiwiRW1haWwiOiIxMjMifQ.1pyWDuzH74hw47fmgEv6ZUGw2TyMorZh25nKaToSufQ]
+[INFO]: 2023-05-01 11:13:59 - called /auth.Auth/Validate method | parameters: {token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODI5Mzg5MzUsImlzcyI6ImRtaXR5LWF1dGhhIiwiRW1haWwiOiIxMjMifQ.1pyWDuzH74hw47fmgEv6ZUGw2TyMorZh25nKaToSufQ"}
+[INFO]: 2023-05-01 11:13:59 - method: validate | error: token is invalid | parameters: map[token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODI5Mzg5MzUsImlzcyI6ImRtaXR5LWF1dGhhIiwiRW1haWwiOiIxMjMifQ.1pyWDuzH74hw47fmgEv6ZUGw2TyMorZh25nKaToSufQ]
+[INFO]: 2023-05-01 11:14:04 - called /auth.Auth/Login method | parameters: {email:"123"  password:"qwerty12"}
+[INFO]: 2023-05-01 11:14:08 - called /auth.Auth/Validate method | parameters: {token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODI5Mzk3MDQsImlzcyI6ImRtaXR5LWF1dGgiLCJFbWFpbCI6IjEyMyJ9.KBFxmLEpByIX6LGGvBD4FO0gz7wiMy2cwpv0gGYRR1I"}
+[INFO]: 2023-05-01 11:15:03 - called /auth.Auth/Validate method | parameters: {token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODI5Mzk3MDQsImlzcyI6ImRtaXR5LWF1dGgiLCJFbWFpbCI6IjEyMyJ9.KBFxmLEpByIX6LGGvBD4FO0gz7wiMy2cwpv0gGYRR1I"}
+[INFO]: 2023-05-01 11:15:04 - called /auth.Auth/Validate method | parameters: {token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODI5Mzk3MDQsImlzcyI6ImRtaXR5LWF1dGgiLCJFbWFpbCI6IjEyMyJ9.KBFxmLEpByIX6LGGvBD4FO0gz7wiMy2cwpv0gGYRR1I"}
+[INFO]: 2023-05-01 11:15:04 - called /auth.Auth/Validate method | parameters: {token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODI5Mzk3MDQsImlzcyI6ImRtaXR5LWF1dGgiLCJFbWFpbCI6IjEyMyJ9.KBFxmLEpByIX6LGGvBD4FO0gz7wiMy2cwpv0gGYRR1I"}
+[INFO]: 2023-05-01 11:15:06 - called /auth.Auth/Validate method | parameters: {token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODI5Mzk3MDQsImlzcyI6ImRtaXR5LWF1dGgiLCJFbWFpbCI6IjEyMyJ9.KBFxmLEpByIX6LGGvBD4FO0gz7wiMy2cwpv0gGYRR1I"}
+[INFO]: 2023-05-01 11:15:06 - method: validate | error: token is invalid | parameters: map[token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODI5Mzk3MDQsImlzcyI6ImRtaXR5LWF1dGgiLCJFbWFpbCI6IjEyMyJ9.KBFxmLEpByIX6LGGvBD4FO0gz7wiMy2cwpv0gGYRR1I]
+[INFO]: 2023-05-01 12:53:58 - called /auth.Auth/Validate method | parameters: {accessToken:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODI5Mzk3MDQsImlzcyI6ImRtaXR5LWF1dGgiLCJFbWFpbCI6IjEyMyJ9.KBFxmLEpByIX6LGGvBD4FO0gz7wiMy2cwpv0gGYRR1I"}
+[INFO]: 2023-05-01 12:53:58 - method: validate | error: token is invalid | parameters: map[token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODI5Mzk3MDQsImlzcyI6ImRtaXR5LWF1dGgiLCJFbWFpbCI6IjEyMyJ9.KBFxmLEpByIX6LGGvBD4FO0gz7wiMy2cwpv0gGYRR1I]
+[INFO]: 2023-05-01 12:54:01 - called /auth.Auth/Register method | parameters: {email:"1dd1d2@233" password:"qw123"}
+[INFO]: 2023-05-01 12:54:01 - method: register | error: too few letters: minimum is 6 | parameters: map[user:{0 1dd1d2@233 qw123}]
+[INFO]: 2023-05-01 12:54:03 - called /auth.Auth/Login method | parameters: {email:"123" password:"qwerty12"}
+[INFO]: 2023-05-01 12:55:03 - called /auth.Auth/Login method | parameters: {email:"123" password:"qwerty12"}
+[INFO]: 2023-05-01 12:55:09 - called /auth.Auth/Login method | parameters: {email:"123" password:"qwerty12"}
+[INFO]: 2023-05-01 12:55:24 - called /auth.Auth/Login method | parameters: {email:"123" password:"qwerty12"}
+[INFO]: 2023-05-01 12:55:47 - called /auth.Auth/Validate method | parameters: {accessToken:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODU1Mzc3MjQsImlzcyI6ImRtaXR5LWF1dGgiLCJFbWFpbCI6IjEyMyJ9.cpG8unZpteq9oMG56xVowlOeg9PDjirUC1wHT16B5yQ"}
+[INFO]: 2023-05-01 12:55:47 - method: validate | error: token is invalid | parameters: map[token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODU1Mzc3MjQsImlzcyI6ImRtaXR5LWF1dGgiLCJFbWFpbCI6IjEyMyJ9.cpG8unZpteq9oMG56xVowlOeg9PDjirUC1wHT16B5yQ]
+[INFO]: 2023-05-01 12:58:11 - called /auth.Auth/Validate method | parameters: {accessToken:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODU1Mzc3MjQsImlzcyI6ImRtaXR5LWF1dGgiLCJFbWFpbCI6IjEyMyJ9.cpG8unZpteq9oMG56xVowlOeg9PDjirUC1wHT16B5yQ"}
+[INFO]: 2023-05-01 12:58:11 - method: validate | error: token is invalid | parameters: map[token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODU1Mzc3MjQsImlzcyI6ImRtaXR5LWF1dGgiLCJFbWFpbCI6IjEyMyJ9.cpG8unZpteq9oMG56xVowlOeg9PDjirUC1wHT16B5yQ]

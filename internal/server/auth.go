@@ -40,7 +40,7 @@ func (s *AuthServer) Register(_ context.Context, req *auth.RegisterRequest) (*em
 
 func (s *AuthServer) Login(_ context.Context, req *auth.LoginRequest) (*auth.LoginResponse, error) {
 	loginRequest := convertLoginRequest(req)
-	token, loginErr := s.authSvc.Login(context.Background(), loginRequest)
+	tokenPair, loginErr := s.authSvc.Login(context.Background(), loginRequest)
 	if autherrors.Is(loginErr, autherrors.UserNotExists) {
 		return nil, status.Error(codes.NotFound, loginErr.Error())
 	}
@@ -52,11 +52,11 @@ func (s *AuthServer) Login(_ context.Context, req *auth.LoginRequest) (*auth.Log
 		return nil, fmt.Errorf("login error: %w", loginErr)
 	}
 
-	return &auth.LoginResponse{Token: token}, nil
+	return &auth.LoginResponse{AccessToken: tokenPair.Access, RefreshToken: tokenPair.Refresh}, nil
 }
 
 func (s *AuthServer) Validate(_ context.Context, req *auth.ValidateRequest) (*auth.ValidateResponse, error) {
-	userEmail, validateErr := s.authSvc.Validate(context.Background(), req.Token)
+	userEmail, validateErr := s.authSvc.Validate(context.Background(), req.AccessToken)
 	if autherrors.Is(validateErr, autherrors.InvalidToken) {
 		return nil, status.Error(codes.PermissionDenied, validateErr.Error())
 	}
