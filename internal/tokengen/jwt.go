@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/golang-jwt/jwt"
+	"log"
 	"time"
 )
 
@@ -47,7 +48,15 @@ func (g *JWTGenerator) ValidateTokenAndGetEmail(signedToken string) (string, err
 		},
 	)
 
+	var ve *jwt.ValidationError
+	if errors.As(parseTokenErr, &ve) {
+		if ve.Errors&jwt.ValidationErrorExpired != 0 {
+			return "", errors.New("token has expired")
+		}
+	}
+
 	if parseTokenErr != nil {
+		log.Println(parseTokenErr)
 		return "", errors.New("can't parse token")
 	}
 
