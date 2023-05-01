@@ -10,6 +10,8 @@ const (
 	InvalidToken Status = "token is invalid"
 	InvalidEmail Status = "email is invalid"
 	WeakPassword Status = "password is too weak"
+
+	InvalidFingerprint Status = "fingerprint must be correct uuid"
 )
 
 type st interface {

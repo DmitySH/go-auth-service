@@ -12,7 +12,10 @@ import (
 	_ "github.com/lib/pq"
 )
 
-const userTable = "auth_user"
+const (
+	userTable    = "auth_user"
+	sessionTable = "session"
+)
 
 type AuthRepository struct {
 	db   *sqlx.DB
@@ -75,7 +78,25 @@ func (r *AuthRepository) CreateUser(ctx context.Context, user entity.AuthUser) e
 
 	_, createUserErr := r.db.ExecContext(ctx, createUserSQL, args...)
 	if createUserErr != nil {
-		return fmt.Errorf("error during sql executing: %w", createUserErr)
+		return fmt.Errorf("error during sql execution: %w", createUserErr)
+	}
+
+	return nil
+}
+
+func (r *AuthRepository) CreateSession(ctx context.Context, session entity.Session) error {
+	createSessionSQL, args, buildSqlErr := r.psql.Insert(sessionTable).
+		Columns("id", "user_id", "fingerprint").
+		Values(session.ID, session.UserID, session.Fingerprint).
+		ToSql()
+
+	if buildSqlErr != nil {
+		return fmt.Errorf("can't build sql: %w", buildSqlErr)
+	}
+
+	_, createSessionErr := r.db.ExecContext(ctx, createSessionSQL, args...)
+	if createSessionErr != nil {
+		return fmt.Errorf("error during sql execution: %w", createSessionErr)
 	}
 
 	return nil

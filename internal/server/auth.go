@@ -40,12 +40,15 @@ func (s *AuthServer) Register(_ context.Context, req *auth.RegisterRequest) (*em
 
 func (s *AuthServer) Login(_ context.Context, req *auth.LoginRequest) (*auth.LoginResponse, error) {
 	loginRequest := convertLoginRequest(req)
-	tokenPair, loginErr := s.authSvc.Login(context.Background(), loginRequest)
+	tokenPair, loginErr := s.authSvc.Login(context.Background(), loginRequest, req.Fingerprint)
 	if autherrors.Is(loginErr, autherrors.UserNotExists) {
 		return nil, status.Error(codes.NotFound, loginErr.Error())
 	}
 	if autherrors.Is(loginErr, autherrors.UserInvalidPassword) {
 		return nil, status.Error(codes.PermissionDenied, loginErr.Error())
+	}
+	if autherrors.Is(loginErr, autherrors.InvalidFingerprint) {
+		return nil, status.Error(codes.InvalidArgument, loginErr.Error())
 	}
 
 	if loginErr != nil {

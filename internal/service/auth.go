@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"github.com/DmitySH/go-auth-service/internal/autherrors"
 	"github.com/DmitySH/go-auth-service/internal/entity"
+	"github.com/google/uuid"
+	"log"
 	"net/mail"
 	"unicode"
 )
@@ -80,10 +82,10 @@ func (s *AuthService) Register(ctx context.Context, user entity.AuthUser) error 
 	return nil
 }
 
-func (s *AuthService) Login(ctx context.Context, user entity.AuthUser) (entity.TokenPair, error) {
+func (s *AuthService) Login(ctx context.Context, user entity.AuthUser, fingerprint string) (entity.TokenPair, error) {
 	existingUser, getUserErr := s.repo.GetUserByEmail(ctx, user.Email)
 	if errors.Is(getUserErr, ErrEntityNotFound) {
-		s.logger.Printf(logPattern, loginMethod, autherrors.UserNotExists, logMap{"user": user})
+		s.logger.Printf(logPattern, loginMethod, autherrors.UserNotExists, logMap{"user": user, "fingerprint": fingerprint})
 		return entity.TokenPair{}, autherrors.NewStatusError(autherrors.UserNotExists, nil)
 	}
 	if getUserErr != nil {
@@ -91,11 +93,34 @@ func (s *AuthService) Login(ctx context.Context, user entity.AuthUser) (entity.T
 		return entity.TokenPair{}, fmt.Errorf("can't check if user exists: %w", getUserErr)
 	}
 	if !s.hasher.CompareHashes(user.Password, existingUser.Password) {
-		s.logger.Printf(logPattern, loginMethod, autherrors.UserInvalidPassword, logMap{"user": user})
+		s.logger.Printf(logPattern, loginMethod, autherrors.UserInvalidPassword, logMap{"user": user, "fingerprint": fingerprint})
 		return entity.TokenPair{}, autherrors.NewStatusError(autherrors.UserInvalidPassword, nil)
 	}
 
-	return s.tokenGenerator.GenerateTokenPair(user.Email)
+	tokenPair, generateTokensErr := s.tokenGenerator.GenerateTokenPair(user.Email)
+	if generateTokensErr != nil {
+		s.logger.Warnf(logPattern, loginMethod, generateTokensErr, logMap{"user": user, "fingerprint": fingerprint})
+		return entity.TokenPair{}, fmt.Errorf("can't generate token pair: %w", generateTokensErr)
+	}
+
+	fingerprintUUID, parseFingerprintErr := uuid.Parse(fingerprint)
+	if parseFingerprintErr != nil {
+		log.Println(parseFingerprintErr)
+		s.logger.Printf(logPattern, loginMethod, autherrors.InvalidFingerprint, logMap{"user": user, "fingerprint": fingerprint})
+		return entity.TokenPair{}, autherrors.NewStatusError(autherrors.InvalidFingerprint, nil)
+	}
+
+	session := entity.Session{
+		ID:          tokenPair.RefreshUUID,
+		UserID:      existingUser.ID,
+		Fingerprint: fingerprintUUID,
+	}
+	if createSessionErr := s.repo.CreateSession(ctx, session); createSessionErr != nil {
+		s.logger.Warnf(logPattern, loginMethod, createSessionErr, logMap{"user": user, "fingerprint": fingerprint})
+		return entity.TokenPair{}, fmt.Errorf("can't create user's session: %w", createSessionErr)
+	}
+
+	return tokenPair, nil
 }
 
 func (s *AuthService) Validate(ctx context.Context, token string) (string, error) {

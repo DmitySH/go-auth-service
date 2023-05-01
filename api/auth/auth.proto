@@ -21,6 +21,7 @@ message RegisterRequest {
 message LoginRequest {
   string email = 1;
   string password = 2;
+  string fingerprint = 3;
 }
 
 message LoginResponse {
@@ -38,6 +39,7 @@ message ValidateResponse {
 
 message RefreshRequest {
   string refreshToken = 1;
+  string fingerprint = 2;
 }
 
 message RefreshResponse {

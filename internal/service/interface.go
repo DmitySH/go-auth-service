@@ -17,6 +17,7 @@ type Logger interface {
 type AuthRepository interface {
 	GetUserByEmail(ctx context.Context, email string) (entity.AuthUser, error)
 	CreateUser(ctx context.Context, user entity.AuthUser) error
+	CreateSession(ctx context.Context, session entity.Session) error
 }
 
 type Hasher interface {
@@ -31,6 +32,6 @@ type TokenGenerator interface {
 
 type Authorization interface {
 	Register(ctx context.Context, user entity.AuthUser) error
-	Login(ctx context.Context, user entity.AuthUser) (entity.TokenPair, error)
+	Login(ctx context.Context, user entity.AuthUser, fingerprint string) (entity.TokenPair, error)
 	Validate(ctx context.Context, token string) (string, error)
 }

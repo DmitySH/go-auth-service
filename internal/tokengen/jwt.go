@@ -5,13 +5,19 @@ import (
 	"fmt"
 	"github.com/DmitySH/go-auth-service/internal/entity"
 	"github.com/golang-jwt/jwt"
+	"github.com/google/uuid"
 	"log"
 	"time"
 )
 
-type jwtClaims struct {
+type jwtAccessClaims struct {
 	jwt.StandardClaims
 	Email string
+}
+
+type jwtRefreshClaims struct {
+	jwt.StandardClaims
+	UUID uuid.UUID
 }
 
 type JWTGenerator struct {
@@ -27,20 +33,21 @@ func (g *JWTGenerator) GenerateTokenPair(userEmail string) (entity.TokenPair, er
 	if accessTokenErr != nil {
 		return entity.TokenPair{}, accessTokenErr
 	}
-
-	refreshToken, refreshTokenErr := g.generateRefreshToken(userEmail)
+	refreshTokenUUID := uuid.New()
+	refreshToken, refreshTokenErr := g.generateRefreshToken(refreshTokenUUID)
 	if refreshTokenErr != nil {
-		return entity.TokenPair{}, accessTokenErr
+		return entity.TokenPair{}, refreshTokenErr
 	}
 
 	return entity.TokenPair{
-		Access:  accessToken,
-		Refresh: refreshToken,
+		Access:      accessToken,
+		Refresh:     refreshToken,
+		RefreshUUID: refreshTokenUUID,
 	}, nil
 }
 
 func (g *JWTGenerator) generateAccessToken(userEmail string) (string, error) {
-	claims := &jwtClaims{
+	claims := &jwtAccessClaims{
 		Email: userEmail,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: time.Now().Local().Add(g.accessTTL).Unix(),
@@ -57,9 +64,9 @@ func (g *JWTGenerator) generateAccessToken(userEmail string) (string, error) {
 	return signedToken, nil
 }
 
-func (g *JWTGenerator) generateRefreshToken(userEmail string) (string, error) {
-	claims := &jwtClaims{
-		Email: userEmail,
+func (g *JWTGenerator) generateRefreshToken(refreshTokenUUID uuid.UUID) (string, error) {
+	claims := &jwtRefreshClaims{
+		UUID: refreshTokenUUID,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: time.Now().Local().Add(g.refreshTTL).Unix(),
 			Issuer:    g.issuer,
@@ -76,7 +83,7 @@ func (g *JWTGenerator) generateRefreshToken(userEmail string) (string, error) {
 }
 
 func (g *JWTGenerator) ValidateAccessTokenAndGetEmail(signedToken string) (string, error) {
-	token, parseTokenErr := jwt.ParseWithClaims(signedToken, &jwtClaims{},
+	token, parseTokenErr := jwt.ParseWithClaims(signedToken, &jwtAccessClaims{},
 		func(token *jwt.Token) (interface{}, error) {
 			return []byte(g.secretAccessKey), nil
 		},
@@ -94,7 +101,7 @@ func (g *JWTGenerator) ValidateAccessTokenAndGetEmail(signedToken string) (strin
 		return "", errors.New("can't parse token")
 	}
 
-	claims, ok := token.Claims.(*jwtClaims)
+	claims, ok := token.Claims.(*jwtAccessClaims)
 	if !ok {
 		return "", errors.New("invalid claims passed")
 	}
