@@ -16,7 +16,7 @@ func LogInterceptor(ctx context.Context,
 	reqUUID := uuid.New()
 
 	logStr := fmt.Sprintf("Request: %s | Method: %s | parameters: {%+v}", reqUUID, info.FullMethod, req)
-	safeLogStr := hidePasswordFromLog(logStr)
+	safeLogStr := hideTokensFromLog(hidePasswordFromLog(logStr))
 	log.Logger().Infof(safeLogStr)
 
 	ctx = context.WithValue(ctx, "request_id", reqUUID)
@@ -25,7 +25,13 @@ func LogInterceptor(ctx context.Context,
 }
 
 func hidePasswordFromLog(logStr string) string {
-	re := regexp.MustCompile(`password:"(.*)"`)
+	re := regexp.MustCompile(`([P, p]assword):".*"`)
 
-	return re.ReplaceAllString(logStr, `password:"***"`)
+	return re.ReplaceAllString(logStr, `$1:"***"`)
+}
+
+func hideTokensFromLog(logStr string) string {
+	re := regexp.MustCompile(`([T, t]oken):".*"`)
+
+	return re.ReplaceAllString(logStr, `$1:"***"`)
 }
