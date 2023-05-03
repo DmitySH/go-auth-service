@@ -19,6 +19,8 @@ func LogInterceptor(ctx context.Context,
 	safeLogStr := hidePasswordFromLog(logStr)
 	log.Logger().Infof(safeLogStr)
 
+	ctx = context.WithValue(ctx, "request_id", reqUUID)
+
 	return handler(ctx, req)
 }
 
