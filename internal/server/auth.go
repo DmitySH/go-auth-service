@@ -16,6 +16,8 @@ type AuthServer struct {
 }
 
 func NewAuthServer(service service.Authorization) *AuthServer {
+	service.StartClearingExpiredSessions(context.Background())
+
 	return &AuthServer{
 		authSvc: service,
 	}
@@ -54,7 +56,7 @@ func (s *AuthServer) Login(ctx context.Context, req *auth.LoginRequest) (*auth.L
 		return nil, status.Error(codes.Internal, loginErr.Error())
 	}
 
-	return &auth.LoginResponse{AccessToken: tokenPair.Access, RefreshToken: tokenPair.Refresh}, nil
+	return &auth.LoginResponse{AccessToken: tokenPair.Access.Token, RefreshToken: tokenPair.Refresh.Token}, nil
 }
 
 func (s *AuthServer) Validate(ctx context.Context, req *auth.ValidateRequest) (*auth.ValidateResponse, error) {
@@ -86,5 +88,5 @@ func (s *AuthServer) Refresh(ctx context.Context, req *auth.RefreshRequest) (*au
 		return nil, status.Error(codes.Internal, refreshErr.Error())
 	}
 
-	return &auth.RefreshResponse{AccessToken: tokenPair.Access, RefreshToken: tokenPair.Refresh}, nil
+	return &auth.RefreshResponse{AccessToken: tokenPair.Access.Token, RefreshToken: tokenPair.Refresh.Token}, nil
 }

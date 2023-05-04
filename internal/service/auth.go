@@ -8,6 +8,7 @@ import (
 	"github.com/DmitySH/go-auth-service/internal/entity"
 	"github.com/google/uuid"
 	"net/mail"
+	"time"
 	"unicode"
 )
 
@@ -28,18 +29,21 @@ const (
 )
 
 type AuthService struct {
-	logger         Logger
-	repo           AuthRepository
-	hasher         Hasher
-	tokenGenerator TokenGenerator
+	logger               Logger
+	repo                 AuthRepository
+	hasher               Hasher
+	tokenGenerator       TokenGenerator
+	sessionClearInterval time.Duration
 }
 
-func NewAuthService(logger Logger, repo AuthRepository, hasher Hasher, tokenGenerator TokenGenerator) *AuthService {
+func NewAuthService(logger Logger, repo AuthRepository,
+	hasher Hasher, tokenGenerator TokenGenerator, sessionClearInterval time.Duration) *AuthService {
 	return &AuthService{
-		logger:         logger,
-		repo:           repo,
-		hasher:         hasher,
-		tokenGenerator: tokenGenerator,
+		logger:               logger,
+		repo:                 repo,
+		hasher:               hasher,
+		tokenGenerator:       tokenGenerator,
+		sessionClearInterval: sessionClearInterval,
 	}
 }
 
@@ -102,16 +106,18 @@ func (s *AuthService) Login(ctx context.Context, user entity.AuthUser, fingerpri
 	}
 
 	sessionUUID := uuid.New()
-	session := entity.Session{
-		ID:          sessionUUID,
-		UserID:      existingUser.ID,
-		Fingerprint: fingerprintUUID,
-	}
 
 	tokenPair, generateTokensErr := s.tokenGenerator.GenerateTokenPair(user.Email, sessionUUID)
 	if generateTokensErr != nil {
 		s.logger.Warnf(logPattern, requestUUID(ctx), loginMethod, generateTokensErr)
 		return entity.TokenPair{}, fmt.Errorf("can't generate token pair: %w", generateTokensErr)
+	}
+
+	session := entity.Session{
+		ID:          sessionUUID,
+		UserID:      existingUser.ID,
+		Fingerprint: fingerprintUUID,
+		ExpiresAt:   tokenPair.Refresh.ExpiresAt,
 	}
 
 	if createSessionErr := s.repo.CreateSession(ctx, session); createSessionErr != nil {
@@ -176,16 +182,18 @@ func (s *AuthService) Refresh(ctx context.Context, refreshToken string, fingerpr
 	}
 
 	newSessionUUID := uuid.New()
-	newSession := entity.Session{
-		ID:          newSessionUUID,
-		UserID:      user.ID,
-		Fingerprint: fingerprintUUID,
-	}
 
 	tokenPair, generateTokensErr := s.tokenGenerator.GenerateTokenPair(user.Email, newSessionUUID)
 	if generateTokensErr != nil {
 		s.logger.Warnf(logPattern, requestUUID(ctx), refreshMethod, generateTokensErr)
 		return entity.TokenPair{}, fmt.Errorf("can't generate token pair: %w", generateTokensErr)
+	}
+
+	newSession := entity.Session{
+		ID:          newSessionUUID,
+		UserID:      user.ID,
+		Fingerprint: fingerprintUUID,
+		ExpiresAt:   tokenPair.Refresh.ExpiresAt,
 	}
 
 	if createSessionErr := s.repo.CreateSession(ctx, newSession); createSessionErr != nil {
@@ -194,6 +202,28 @@ func (s *AuthService) Refresh(ctx context.Context, refreshToken string, fingerpr
 	}
 
 	return tokenPair, nil
+}
+
+func (s *AuthService) StartClearingExpiredSessions(ctx context.Context) {
+	go func() {
+		ticker := time.NewTicker(s.sessionClearInterval)
+		defer func() {
+			ticker.Stop()
+			s.logger.Printf("stop clearing old sessions")
+		}()
+
+		s.logger.Printf("start clearing old sessions")
+
+		s.clearExpiredSessions(ctx)
+		for {
+			select {
+			case <-ticker.C:
+				s.clearExpiredSessions(ctx)
+			case <-ctx.Done():
+				return
+			}
+		}
+	}()
 }
 
 func validatePassword(s string) error {
@@ -247,4 +277,12 @@ func requestUUID(ctx context.Context) uuid.UUID {
 	}
 
 	return reqUUID
+}
+
+func (s *AuthService) clearExpiredSessions(ctx context.Context) {
+	s.logger.Printf("clearing old sessions...")
+
+	if deleteSessionsErr := s.repo.DeleteExpiredSessions(ctx, time.Now()); deleteSessionsErr != nil {
+		s.logger.Fatal("can't clear old sessions: %w", deleteSessionsErr)
+	}
 }

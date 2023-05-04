@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/DmitySH/go-auth-service/internal/entity"
 	"github.com/google/uuid"
+	"time"
 )
 
 type Logger interface {
@@ -22,6 +23,7 @@ type AuthRepository interface {
 	GetUserByID(ctx context.Context, id int64) (entity.AuthUser, error)
 	GetSessionByUUID(ctx context.Context, sessionUUID uuid.UUID) (entity.Session, error)
 	DeleteSessionByUUID(ctx context.Context, sessionUUID uuid.UUID) error
+	DeleteExpiredSessions(ctx context.Context, olderThan time.Time) error
 }
 
 type Hasher interface {
@@ -40,4 +42,5 @@ type Authorization interface {
 	Login(ctx context.Context, user entity.AuthUser, fingerprint string) (entity.TokenPair, error)
 	Validate(ctx context.Context, accessToken string) (string, error)
 	Refresh(ctx context.Context, refreshToken string, fingerprint string) (entity.TokenPair, error)
+	StartClearingExpiredSessions(ctx context.Context)
 }

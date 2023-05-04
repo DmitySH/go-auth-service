@@ -71,7 +71,8 @@ func Run() {
 		time.Minute*time.Duration(viper.GetInt("JWT_ACCESS_TOKEN_MINUTES_TTL")),
 		day*time.Duration(viper.GetInt("JWT_REFRESH_TOKEN_DAYS_TTL")))
 
-	authService := service.NewAuthService(logger, authRepo, passwordHasher, tokenGenerator)
+	authService := service.NewAuthService(logger, authRepo, passwordHasher, tokenGenerator,
+		time.Minute*time.Duration(viper.GetInt("SESSION_CLEAR_INTERVAL_MINUTES")))
 	authServer := server.NewAuthServer(authService)
 
 	var opts = []grpc.ServerOption{

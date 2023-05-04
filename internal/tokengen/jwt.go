@@ -45,11 +45,13 @@ func (g *JWTGenerator) GenerateTokenPair(userEmail string, sessionUUID uuid.UUID
 	}, nil
 }
 
-func (g *JWTGenerator) generateAccessToken(userEmail string) (string, error) {
+func (g *JWTGenerator) generateAccessToken(userEmail string) (entity.Token, error) {
+	expiresAt := time.Now().Local().Add(g.accessTTL).Unix()
+
 	claims := &jwtAccessClaims{
 		Email: userEmail,
 		StandardClaims: jwt.StandardClaims{
-			ExpiresAt: time.Now().Local().Add(g.accessTTL).Unix(),
+			ExpiresAt: expiresAt,
 			Issuer:    g.issuer,
 		},
 	}
@@ -57,13 +59,15 @@ func (g *JWTGenerator) generateAccessToken(userEmail string) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	signedToken, signErr := token.SignedString([]byte(g.secretAccessKey))
 	if signErr != nil {
-		return "", fmt.Errorf("can't sign access token:%w", signErr)
+		return entity.Token{}, fmt.Errorf("can't sign access token:%w", signErr)
 	}
 
-	return signedToken, nil
+	return entity.Token{Token: signedToken, ExpiresAt: time.Unix(expiresAt, 0)}, nil
 }
 
-func (g *JWTGenerator) generateRefreshToken(sessionUUID uuid.UUID) (string, error) {
+func (g *JWTGenerator) generateRefreshToken(sessionUUID uuid.UUID) (entity.Token, error) {
+	expiresAt := time.Now().Local().Add(g.refreshTTL).Unix()
+
 	claims := &jwtRefreshClaims{
 		SessionUUID: sessionUUID,
 		StandardClaims: jwt.StandardClaims{
@@ -75,10 +79,10 @@ func (g *JWTGenerator) generateRefreshToken(sessionUUID uuid.UUID) (string, erro
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	signedToken, signErr := token.SignedString([]byte(g.secretRefreshKey))
 	if signErr != nil {
-		return "", fmt.Errorf("can't sign refresh token:%w", signErr)
+		return entity.Token{}, fmt.Errorf("can't sign refresh token:%w", signErr)
 	}
 
-	return signedToken, nil
+	return entity.Token{Token: signedToken, ExpiresAt: time.Unix(expiresAt, 0)}, nil
 }
 
 func (g *JWTGenerator) ValidateAccessTokenAndGetEmail(signedToken string) (string, error) {

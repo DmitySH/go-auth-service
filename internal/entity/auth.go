@@ -1,6 +1,9 @@
 package entity
 
-import "github.com/google/uuid"
+import (
+	"github.com/google/uuid"
+	"time"
+)
 
 type AuthUser struct {
 	ID       int64
@@ -11,5 +14,6 @@ type AuthUser struct {
 type Session struct {
 	ID          uuid.UUID
 	Fingerprint uuid.UUID
-	UserID      int64 `db:"user_id"`
+	UserID      int64     `db:"user_id"`
+	ExpiresAt   time.Time `db:"expires_at"`
 }

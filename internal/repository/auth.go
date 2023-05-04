@@ -11,6 +11,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
+	"time"
 )
 
 const (
@@ -87,8 +88,8 @@ func (r *AuthRepository) CreateUser(ctx context.Context, user entity.AuthUser) e
 
 func (r *AuthRepository) CreateSession(ctx context.Context, session entity.Session) error {
 	createSessionSQL, args, buildSqlErr := r.psql.Insert(sessionTable).
-		Columns("id", "user_id", "fingerprint").
-		Values(session.ID, session.UserID, session.Fingerprint).
+		Columns("id", "user_id", "fingerprint", "expires_at").
+		Values(session.ID, session.UserID, session.Fingerprint, session.ExpiresAt).
 		ToSql()
 
 	if buildSqlErr != nil {
@@ -137,6 +138,23 @@ func (r *AuthRepository) DeleteSessionByUUID(ctx context.Context, sessionUUID uu
 	_, deleteSessionErr := r.db.ExecContext(ctx, deleteSessionSQL, args...)
 	if deleteSessionErr != nil {
 		return fmt.Errorf("error during sql execution: %w", deleteSessionErr)
+	}
+
+	return nil
+}
+
+func (r *AuthRepository) DeleteExpiredSessions(ctx context.Context, expiresAfter time.Time) error {
+	deleteSessionsSQL, args, buildSqlErr := r.psql.Delete(sessionTable).
+		Where(sq.Lt{"expires_at": expiresAfter}).
+		ToSql()
+
+	if buildSqlErr != nil {
+		return fmt.Errorf("can't build sql: %w", buildSqlErr)
+	}
+
+	_, deleteSessionsErr := r.db.ExecContext(ctx, deleteSessionsSQL, args...)
+	if deleteSessionsErr != nil {
+		return fmt.Errorf("error during sql execution: %w", deleteSessionsErr)
 	}
 
 	return nil
