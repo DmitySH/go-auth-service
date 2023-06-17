@@ -1,15 +1,37 @@
 syntax = "proto3";
-option go_package = "github.com/DmitySH/go-auth-service/api/chat";
+option go_package = "github.com/DmitySH/go-auth-service/api/auth";
 
 import "google/protobuf/empty.proto";
+import "google/api/annotations.proto";
+
 package auth;
 
 
 service Auth {
-  rpc Register(RegisterRequest) returns (google.protobuf.Empty);
-  rpc Login(LoginRequest) returns (LoginResponse);
-  rpc Validate(ValidateRequest) returns (ValidateResponse);
-  rpc Refresh(RefreshRequest) returns (RefreshResponse);
+  rpc Register(RegisterRequest) returns (google.protobuf.Empty){
+    option (google.api.http) = {
+      post: "/v1/register"
+      body: "*"
+    };
+  }
+  rpc Login(LoginRequest) returns (LoginResponse){
+    option (google.api.http) = {
+      post: "/v1/login"
+      body: "*"
+    };
+  }
+  rpc Validate(ValidateRequest) returns (ValidateResponse){
+    option (google.api.http) = {
+      post: "/v1/validate"
+      body: "*"
+    };
+  }
+  rpc Refresh(RefreshRequest) returns (RefreshResponse){
+    option (google.api.http) = {
+      post: "/v1/refresh"
+      body: "*"
+    };
+  }
 }
 
 
