@@ -1,13 +1,13 @@
 package main
 
 import (
-	"github.com/DmitySH/go-auth-service/internal/auth"
-	"github.com/DmitySH/go-auth-service/pkg/config"
+	"github.com/DmitySH/go-auth-service/config"
+	"github.com/DmitySH/go-auth-service/internal/app"
 )
 
-const cfgPath = "configs/app.env"
+const cfgPath = "config/app.env"
 
 func main() {
 	config.LoadEnvConfig(cfgPath)
-	auth.Run()
+	app.Run()
 }

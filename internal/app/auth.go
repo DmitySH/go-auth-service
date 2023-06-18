@@ -1,4 +1,4 @@
-package auth
+package app
 
 import (
 	"github.com/DmitySH/go-auth-service/internal/hashser"
