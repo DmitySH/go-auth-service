@@ -1,124 +1,60 @@
-[INFO]: 2023-04-28 13:20:02 - called /auth.Auth/Register method | parameters: {email:"1dd233"  password:"qwerty123"}
-[INFO]: 2023-04-28 13:20:02 - method: register | error: too few uppercase letters: minimum is 2 | parameters: map[user:{0 1dd233 qwerty123}]
-[INFO]: 2023-04-28 13:22:04 - called /auth.Auth/Register method | parameters: {email:"1dd233"  password:"qwerty123"}
-[INFO]: 2023-04-28 13:22:05 - method: register | error: too few uppercase letters: minimum is 2 | parameters: map[user:{0 1dd233 qwerty123}]
-[INFO]: 2023-04-28 13:22:14 - called /auth.Auth/Register method | parameters: {email:"1dd233"  password:"qwSDFerty123"}
-[INFO]: 2023-04-28 13:22:14 - method: register | error: too few special symbols: minimum is 2 | parameters: map[user:{0 1dd233 qwSDFerty123}]
-[INFO]: 2023-04-28 13:22:19 - called /auth.Auth/Register method | parameters: {email:"1dd233"  password:"qwSDFerty@3#123"}
-[INFO]: 2023-04-28 13:22:21 - called /auth.Auth/Register method | parameters: {email:"1dd233"  password:"qwSDFerty@3#123"}
-[INFO]: 2023-04-28 13:22:21 - method: register | error: user already exists | parameters: map[user:{0 1dd233 qwSDFerty@3#123}]
-[INFO]: 2023-04-28 13:22:27 - called /auth.Auth/Register method | parameters: {email:"1dd2233"  password:"qwSDFerty@3#123"}
-[INFO]: 2023-04-28 13:22:32 - called /auth.Auth/Register method | parameters: {email:"1dd2233"  password:"qw123"}
-[INFO]: 2023-04-28 13:22:32 - method: register | error: user already exists | parameters: map[user:{0 1dd2233 qw123}]
-[INFO]: 2023-04-28 13:22:34 - called /auth.Auth/Register method | parameters: {email:"1dd12233"  password:"qw123"}
-[INFO]: 2023-04-28 13:22:34 - method: register | error: too few letters: minimum is 6 | parameters: map[user:{0 1dd12233 qw123}]
-[INFO]: 2023-04-28 13:30:26 - called /auth.Auth/Register method | parameters: {email:"1dd12233" password:"qw123"}
-[INFO]: 2023-04-28 13:30:26 - method: register | error: too few letters: minimum is 6 | parameters: map[user:{0 1dd12233 qw123}]
-[INFO]: 2023-04-28 13:33:16 - called /auth.Auth/Register method | parameters: {email:"1dd1d2233"  password:"qw123"}
-[INFO]: 2023-04-28 13:33:16 - method: register | error: email is invalid | parameters: map[user:{0 1dd1d2233 qw123}]
-[INFO]: 2023-04-28 13:33:25 - called /auth.Auth/Register method | parameters: {email:"1dd1d2233"  password:"qw123"}
-[INFO]: 2023-04-28 13:33:25 - method: register | error: email is invalid | parameters: map[user:{0 1dd1d2233 qw123}]
-[INFO]: 2023-04-28 13:33:56 - called /auth.Auth/Register method | parameters: {email:"1dd1d2233"  password:"qw123"}
-[INFO]: 2023-04-28 13:33:56 - method: register | error: email is invalid | parameters: map[user:{0 1dd1d2233 qw123}]
-[INFO]: 2023-04-28 13:38:19 - called /auth.Auth/Register method | parameters: {email:"1dd1d2233"  password:"qw123"}
-[INFO]: 2023-04-28 13:38:19 - method: register | error: email is invalid | parameters: map[user:{0 1dd1d2233 qw123}]
-[INFO]: 2023-04-28 13:38:25 - called /auth.Auth/Register method | parameters: {email:"1dd1d2@233"  password:"qw123"}
-[INFO]: 2023-04-28 13:38:25 - method: register | error: too few letters: minimum is 6 | parameters: map[user:{0 1dd1d2@233 qw123}]
-[INFO]: 2023-05-01 10:52:28 - called /auth.Auth/Validate method | parameters: {token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODI3NTMyNjMsImlzcyI6ImRtaXR5LWF1dGgiLCJFbWFpbCI6IjEyMyJ9.CCHniVvjbqAaYsI5DlRaIiCf-yyEJj2u7hJ1jwdQy10"}
-[INFO]: 2023-05-01 10:52:28 - method: validate | error: token is invalid | parameters: map[token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODI3NTMyNjMsImlzcyI6ImRtaXR5LWF1dGgiLCJFbWFpbCI6IjEyMyJ9.CCHniVvjbqAaYsI5DlRaIiCf-yyEJj2u7hJ1jwdQy10]
-[INFO]: 2023-05-01 10:52:32 - called /auth.Auth/Register method | parameters: {email:"1dd1d2@233" password:"qw123"}
-[INFO]: 2023-05-01 10:52:32 - method: register | error: too few letters: minimum is 6 | parameters: map[user:{0 1dd1d2@233 qw123}]
-[INFO]: 2023-05-01 10:52:37 - called /auth.Auth/Login method | parameters: {email:"123" password:"qwerty12"}
-[INFO]: 2023-05-01 10:52:49 - called /auth.Auth/Validate method | parameters: {token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODI5Mzg0MTcsImlzcyI6ImRtaXR5LWF1dGgiLCJFbWFpbCI6IjEyMyJ9.mfWRvm2ty1jDu5dipt45KRm_b9cjU-8-q0rj2BPezjo"}
-[INFO]: 2023-05-01 10:59:00 - called /auth.Auth/Validate method | parameters: {token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODI5Mzg0MTcsImlzcyI6ImRtaXR5LWF1dGgiLCJFbWFpbCI6IjEyMyJ9.mfWRvm2ty1jDu5dipt45KRm_b9cjU-8-q0rj2BPezjo"}
-[INFO]: 2023-05-01 10:59:00 - method: validate | error: token is invalid | parameters: map[token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODI5Mzg0MTcsImlzcyI6ImRtaXR5LWF1dGgiLCJFbWFpbCI6IjEyMyJ9.mfWRvm2ty1jDu5dipt45KRm_b9cjU-8-q0rj2BPezjo]
-[INFO]: 2023-05-01 11:00:07 - called /auth.Auth/Validate method | parameters: {token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODI5Mzg0MTcsImlzcyI6ImRtaXR5LWF1dGgiLCJFbWFpbCI6IjEyMyJ9.mfWRvm2ty1jDu5dipt45KRm_b9cjU-8-q0rj2BPezjo"}
-[INFO]: 2023-05-01 11:00:07 - method: validate | error: token is invalid | parameters: map[token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODI5Mzg0MTcsImlzcyI6ImRtaXR5LWF1dGgiLCJFbWFpbCI6IjEyMyJ9.mfWRvm2ty1jDu5dipt45KRm_b9cjU-8-q0rj2BPezjo]
-[INFO]: 2023-05-01 11:01:07 - called /auth.Auth/Validate method | parameters: {token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODI5Mzg0MTcsImlzcyI6ImRtaXR5LWF1dGgiLCJFbWFpbCI6IjEyMyJ9.mfWRvm2ty1jDu5dipt45KRm_b9cjU-8-q0rj2BPezjo"}
-[INFO]: 2023-05-01 11:01:07 - method: validate | error: token is invalid | parameters: map[token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODI5Mzg0MTcsImlzcyI6ImRtaXR5LWF1dGgiLCJFbWFpbCI6IjEyMyJ9.mfWRvm2ty1jDu5dipt45KRm_b9cjU-8-q0rj2BPezjo]
-[INFO]: 2023-05-01 11:01:15 - called /auth.Auth/Login method | parameters: {email:"123" password:"qwerty12"}
-[INFO]: 2023-05-01 11:01:21 - called /auth.Auth/Validate method | parameters: {token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODI5Mzg5MzUsImlzcyI6ImRtaXR5LWF1dGhhIiwiRW1haWwiOiIxMjMifQ.1pyWDuzH74hw47fmgEv6ZUGw2TyMorZh25nKaToSufQ"}
-[INFO]: 2023-05-01 11:01:21 - method: validate | error: token is invalid | parameters: map[token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODI5Mzg5MzUsImlzcyI6ImRtaXR5LWF1dGhhIiwiRW1haWwiOiIxMjMifQ.1pyWDuzH74hw47fmgEv6ZUGw2TyMorZh25nKaToSufQ]
-[INFO]: 2023-05-01 11:13:59 - called /auth.Auth/Validate method | parameters: {token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODI5Mzg5MzUsImlzcyI6ImRtaXR5LWF1dGhhIiwiRW1haWwiOiIxMjMifQ.1pyWDuzH74hw47fmgEv6ZUGw2TyMorZh25nKaToSufQ"}
-[INFO]: 2023-05-01 11:13:59 - method: validate | error: token is invalid | parameters: map[token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODI5Mzg5MzUsImlzcyI6ImRtaXR5LWF1dGhhIiwiRW1haWwiOiIxMjMifQ.1pyWDuzH74hw47fmgEv6ZUGw2TyMorZh25nKaToSufQ]
-[INFO]: 2023-05-01 11:14:04 - called /auth.Auth/Login method | parameters: {email:"123"  password:"qwerty12"}
-[INFO]: 2023-05-01 11:14:08 - called /auth.Auth/Validate method | parameters: {token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODI5Mzk3MDQsImlzcyI6ImRtaXR5LWF1dGgiLCJFbWFpbCI6IjEyMyJ9.KBFxmLEpByIX6LGGvBD4FO0gz7wiMy2cwpv0gGYRR1I"}
-[INFO]: 2023-05-01 11:15:03 - called /auth.Auth/Validate method | parameters: {token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODI5Mzk3MDQsImlzcyI6ImRtaXR5LWF1dGgiLCJFbWFpbCI6IjEyMyJ9.KBFxmLEpByIX6LGGvBD4FO0gz7wiMy2cwpv0gGYRR1I"}
-[INFO]: 2023-05-01 11:15:04 - called /auth.Auth/Validate method | parameters: {token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODI5Mzk3MDQsImlzcyI6ImRtaXR5LWF1dGgiLCJFbWFpbCI6IjEyMyJ9.KBFxmLEpByIX6LGGvBD4FO0gz7wiMy2cwpv0gGYRR1I"}
-[INFO]: 2023-05-01 11:15:04 - called /auth.Auth/Validate method | parameters: {token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODI5Mzk3MDQsImlzcyI6ImRtaXR5LWF1dGgiLCJFbWFpbCI6IjEyMyJ9.KBFxmLEpByIX6LGGvBD4FO0gz7wiMy2cwpv0gGYRR1I"}
-[INFO]: 2023-05-01 11:15:06 - called /auth.Auth/Validate method | parameters: {token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODI5Mzk3MDQsImlzcyI6ImRtaXR5LWF1dGgiLCJFbWFpbCI6IjEyMyJ9.KBFxmLEpByIX6LGGvBD4FO0gz7wiMy2cwpv0gGYRR1I"}
-[INFO]: 2023-05-01 11:15:06 - method: validate | error: token is invalid | parameters: map[token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODI5Mzk3MDQsImlzcyI6ImRtaXR5LWF1dGgiLCJFbWFpbCI6IjEyMyJ9.KBFxmLEpByIX6LGGvBD4FO0gz7wiMy2cwpv0gGYRR1I]
-[INFO]: 2023-05-01 12:53:58 - called /auth.Auth/Validate method | parameters: {accessToken:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODI5Mzk3MDQsImlzcyI6ImRtaXR5LWF1dGgiLCJFbWFpbCI6IjEyMyJ9.KBFxmLEpByIX6LGGvBD4FO0gz7wiMy2cwpv0gGYRR1I"}
-[INFO]: 2023-05-01 12:53:58 - method: validate | error: token is invalid | parameters: map[token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODI5Mzk3MDQsImlzcyI6ImRtaXR5LWF1dGgiLCJFbWFpbCI6IjEyMyJ9.KBFxmLEpByIX6LGGvBD4FO0gz7wiMy2cwpv0gGYRR1I]
-[INFO]: 2023-05-01 12:54:01 - called /auth.Auth/Register method | parameters: {email:"1dd1d2@233" password:"qw123"}
-[INFO]: 2023-05-01 12:54:01 - method: register | error: too few letters: minimum is 6 | parameters: map[user:{0 1dd1d2@233 qw123}]
-[INFO]: 2023-05-01 12:54:03 - called /auth.Auth/Login method | parameters: {email:"123" password:"qwerty12"}
-[INFO]: 2023-05-01 12:55:03 - called /auth.Auth/Login method | parameters: {email:"123" password:"qwerty12"}
-[INFO]: 2023-05-01 12:55:09 - called /auth.Auth/Login method | parameters: {email:"123" password:"qwerty12"}
-[INFO]: 2023-05-01 12:55:24 - called /auth.Auth/Login method | parameters: {email:"123" password:"qwerty12"}
-[INFO]: 2023-05-01 12:55:47 - called /auth.Auth/Validate method | parameters: {accessToken:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODU1Mzc3MjQsImlzcyI6ImRtaXR5LWF1dGgiLCJFbWFpbCI6IjEyMyJ9.cpG8unZpteq9oMG56xVowlOeg9PDjirUC1wHT16B5yQ"}
-[INFO]: 2023-05-01 12:55:47 - method: validate | error: token is invalid | parameters: map[token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODU1Mzc3MjQsImlzcyI6ImRtaXR5LWF1dGgiLCJFbWFpbCI6IjEyMyJ9.cpG8unZpteq9oMG56xVowlOeg9PDjirUC1wHT16B5yQ]
-[INFO]: 2023-05-01 12:58:11 - called /auth.Auth/Validate method | parameters: {accessToken:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODU1Mzc3MjQsImlzcyI6ImRtaXR5LWF1dGgiLCJFbWFpbCI6IjEyMyJ9.cpG8unZpteq9oMG56xVowlOeg9PDjirUC1wHT16B5yQ"}
-[INFO]: 2023-05-01 12:58:11 - method: validate | error: token is invalid | parameters: map[token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODU1Mzc3MjQsImlzcyI6ImRtaXR5LWF1dGgiLCJFbWFpbCI6IjEyMyJ9.cpG8unZpteq9oMG56xVowlOeg9PDjirUC1wHT16B5yQ]
-[INFO]: 2023-05-01 15:14:46 - called /auth.Auth/Register method | parameters: {email:"1dd1d2@233" password:"qw123"}
-[INFO]: 2023-05-01 15:14:46 - method: register | error: too few letters: minimum is 6 | parameters: map[user:{0 1dd1d2@233 qw123}]
-[INFO]: 2023-05-01 15:14:49 - called /auth.Auth/Register method | parameters: {email:"1dd1d2@233" password:"qwFSDF123"}
-[INFO]: 2023-05-01 15:14:49 - method: register | error: too few special symbols: minimum is 2 | parameters: map[user:{0 1dd1d2@233 qwFSDF123}]
-[INFO]: 2023-05-01 15:14:54 - called /auth.Auth/Register method | parameters: {email:"1dd1d2@233" password:"qw@#FSDF123"}
-[INFO]: 2023-05-01 15:14:55 - called /auth.Auth/Register method | parameters: {email:"1dd1d2@233" password:"qw@#FSDF123"}
-[INFO]: 2023-05-01 15:14:55 - method: register | error: user already exists | parameters: map[user:{0 1dd1d2@233 qw@#FSDF123}]
-[INFO]: 2023-05-01 15:15:05 - called /auth.Auth/Login method | parameters: {email:"1dd1d2@233" password:"qw@#FSDF123"}
-[INFO]: 2023-05-01 15:15:05 - method: login | error: fingerprint must be correct uuid | parameters: map[fingerprint: user:{0 1dd1d2@233 qw@#FSDF123}]
-[INFO]: 2023-05-01 15:16:15 - called /auth.Auth/Login method | parameters: {email:"1dd1d2@233"  password:"qw@#FSDF123"}
-[INFO]: 2023-05-01 15:16:15 - method: login | error: fingerprint must be correct uuid | parameters: map[fingerprint: user:{0 1dd1d2@233 qw@#FSDF123}]
-[INFO]: 2023-05-01 15:16:32 - called /auth.Auth/Login method | parameters: {email:"1dd1d2@233"  password:"qw@#FSDF123"}
-[INFO]: 2023-05-01 15:16:32 - method: login | error: fingerprint must be correct uuid | parameters: map[fingerprint: user:{0 1dd1d2@233 qw@#FSDF123}]
-[INFO]: 2023-05-01 15:16:43 - called /auth.Auth/Login method | parameters: {email:"1dd1d2@233"  password:"qw@#FSDF123"}
-[INFO]: 2023-05-01 15:16:43 - method: login | error: fingerprint must be correct uuid | parameters: map[fingerprint: user:{0 1dd1d2@233 qw@#FSDF123}]
-[INFO]: 2023-05-01 15:17:35 - called /auth.Auth/Login method | parameters: {email:"1dd1d2@233" password:"qw@#FSDF123"}
-[INFO]: 2023-05-01 15:17:35 - method: login | error: fingerprint must be correct uuid | parameters: map[fingerprint: user:{0 1dd1d2@233 qw@#FSDF123}]
-[INFO]: 2023-05-01 15:19:03 - called /auth.Auth/Login method | parameters: {email:"1dd1d2@233" password:"qw@#FSDF123" fingerprint:"7b849c5c-16b5-4ee4-a627-a21cac4c7160"}
-[WARNING]: 2023-05-01 15:19:03 - method: login | error: error during sql execution: pq: column "userid" of relation "session" does not exist | parameters: map[fingerprint:7b849c5c-16b5-4ee4-a627-a21cac4c7160 user:{0 1dd1d2@233 qw@#FSDF123}]
-[INFO]: 2023-05-01 15:20:02 - called /auth.Auth/Login method | parameters: {email:"1dd1d2@233"  password:"qw@#FSDF123"  fingerprint:"7b849c5c-16b5-4ee4-a627-a21cac4c7160"}
-[WARNING]: 2023-05-01 15:20:02 - method: login | error: error during sql execution: pq: column "userid" of relation "session" does not exist | parameters: map[fingerprint:7b849c5c-16b5-4ee4-a627-a21cac4c7160 user:{0 1dd1d2@233 qw@#FSDF123}]
-[INFO]: 2023-05-01 15:21:43 - called /auth.Auth/Login method | parameters: {email:"1dd1d2@233"  password:"qw@#FSDF123"  fingerprint:"7b849c5c-16b5-4ee4-a627-a21cac4c7160"}
-[INFO]: 2023-05-01 15:21:43 - method: login | error: user doesn't exist | parameters: map[fingerprint:7b849c5c-16b5-4ee4-a627-a21cac4c7160 user:{0 1dd1d2@233 qw@#FSDF123}]
-[INFO]: 2023-05-01 15:21:47 - called /auth.Auth/Register method | parameters: {email:"1dd1d2@233"  password:"qw@#FSDF123"}
-[INFO]: 2023-05-01 15:21:49 - called /auth.Auth/Login method | parameters: {email:"1dd1d2@233"  password:"qw@#FSDF123"  fingerprint:"7b849c5c-16b5-4ee4-a627-a21cac4c7160"}
-[INFO]: 2023-05-01 15:21:53 - called /auth.Auth/Login method | parameters: {email:"1dd1d2@233"  password:"qw@#FSDF123"  fingerprint:"7b849c5c-16b5-4ee4-a627-a21cac4c7160"}
-[INFO]: 2023-05-01 19:43:59 - called /auth.Auth/Register method | parameters: {email:"1dd1d2@233"  password:"qw@#FSDF123"}
-[INFO]: 2023-05-01 19:43:59 - method: register | error: user already exists | parameters: map[user:{0 1dd1d2@233 qw@#FSDF123}]
-[INFO]: 2023-05-01 19:44:02 - called /auth.Auth/Login method | parameters: {email:"1dd1d2@233"  password:"qw@#FSDF123"  fingerprint:"7b849c5c-16b5-4ee4-a627-a21cac4c7160"}
-[INFO]: 2023-05-01 19:44:22 - called /auth.Auth/Validate method | parameters: {accessToken:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODU1Mzc3MjQsImlzcyI6ImRtaXR5LWF1dGgiLCJFbWFpbCI6IjEyMyJ9.cpG8unZpteq9oMG56xVowlOeg9PDjirUC1wHT16B5yQ"}
-[INFO]: 2023-05-01 19:44:22 - method: validate | error: token is invalid | parameters: map[accessToken:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODU1Mzc3MjQsImlzcyI6ImRtaXR5LWF1dGgiLCJFbWFpbCI6IjEyMyJ9.cpG8unZpteq9oMG56xVowlOeg9PDjirUC1wHT16B5yQ]
-[INFO]: 2023-05-01 19:44:50 - called /auth.Auth/Refresh method | parameters: {refreshToken:"reprehenderit laboris tempor dolor"  fingerprint:"ipsum proident sit dolore"}
-[INFO]: 2023-05-01 19:44:50 - method: refresh | error: fingerprint must be correct uuid | parameters: map[fingerprint:ipsum proident sit dolore refreshToken:reprehenderit laboris tempor dolor]
-[INFO]: 2023-05-01 19:45:19 - called /auth.Auth/Login method | parameters: {email:"1dd1d2@233"  password:"qw@#FSDF123"  fingerprint:"7b849c5c-16b5-4ee4-a627-a21cac4c7160"}
-[INFO]: 2023-05-01 19:45:24 - called /auth.Auth/Refresh method | parameters: {refreshToken:"reprehenderit laboris tempor dolor"  fingerprint:"7b849c5c-16b5-4ee4-a627-a21cac4c7160"}
-[INFO]: 2023-05-01 19:45:24 - method: refresh | error: token is invalid | parameters: map[fingerprint:7b849c5c-16b5-4ee4-a627-a21cac4c7160 refreshToken:reprehenderit laboris tempor dolor]
-[INFO]: 2023-05-01 19:45:44 - called /auth.Auth/Refresh method | parameters: {refreshToken:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODI5NzM5MTksImlzcyI6ImRtaXR5LWF1dGgiLCJFbWFpbCI6IjFkZDFkMkAyMzMifQ._-BwdH-5V0jS3-SvMsQ9M8xsM0H8eDV6ZgI-MwgKTNY"  fingerprint:"7b849c5c-16b5-4ee4-a627-a21cac4c7160"}
-[INFO]: 2023-05-01 19:45:44 - method: refresh | error: token is invalid | parameters: map[fingerprint:7b849c5c-16b5-4ee4-a627-a21cac4c7160 refreshToken:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODI5NzM5MTksImlzcyI6ImRtaXR5LWF1dGgiLCJFbWFpbCI6IjFkZDFkMkAyMzMifQ._-BwdH-5V0jS3-SvMsQ9M8xsM0H8eDV6ZgI-MwgKTNY]
-[INFO]: 2023-05-01 19:49:05 - called /auth.Auth/Refresh method | parameters: {refreshToken:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODU1NjIzMTksImlzcyI6ImRtaXR5LWF1dGgiLCJTZXNzaW9uVVVJRCI6ImI3ZDZjNmZjLWJhMWYtNDdmYi1hYmU2LTU2MDViMjQxZTJiYiJ9.F9vpgbIuXj7YzfZ9BvR6_RP0S8X16IhDtl_3mThdswI"  fingerprint:"7b849c5c-16b5-4ee4-a627-a21cac4c7160"}
-[WARNING]: 2023-05-01 19:49:05 - method: refresh | error: error during sql executing: missing destination name user_id in *entity.Session | parameters: map[fingerprint:7b849c5c-16b5-4ee4-a627-a21cac4c7160 refreshToken:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODU1NjIzMTksImlzcyI6ImRtaXR5LWF1dGgiLCJTZXNzaW9uVVVJRCI6ImI3ZDZjNmZjLWJhMWYtNDdmYi1hYmU2LTU2MDViMjQxZTJiYiJ9.F9vpgbIuXj7YzfZ9BvR6_RP0S8X16IhDtl_3mThdswI]
-[INFO]: 2023-05-01 19:51:48 - called /auth.Auth/Refresh method | parameters: {refreshToken:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODU1NjIzMTksImlzcyI6ImRtaXR5LWF1dGgiLCJTZXNzaW9uVVVJRCI6ImI3ZDZjNmZjLWJhMWYtNDdmYi1hYmU2LTU2MDViMjQxZTJiYiJ9.F9vpgbIuXj7YzfZ9BvR6_RP0S8X16IhDtl_3mThdswI"  fingerprint:"7b849c5c-16b5-4ee4-a627-a21cac4c7160"}
-[WARNING]: 2023-05-01 19:51:48 - method: refresh | error: error during sql executing: missing destination name user_id in *entity.Session | parameters: map[fingerprint:7b849c5c-16b5-4ee4-a627-a21cac4c7160 refreshToken:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODU1NjIzMTksImlzcyI6ImRtaXR5LWF1dGgiLCJTZXNzaW9uVVVJRCI6ImI3ZDZjNmZjLWJhMWYtNDdmYi1hYmU2LTU2MDViMjQxZTJiYiJ9.F9vpgbIuXj7YzfZ9BvR6_RP0S8X16IhDtl_3mThdswI]
-[INFO]: 2023-05-01 19:53:12 - called /auth.Auth/Refresh method | parameters: {refreshToken:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODU1NjIzMTksImlzcyI6ImRtaXR5LWF1dGgiLCJTZXNzaW9uVVVJRCI6ImI3ZDZjNmZjLWJhMWYtNDdmYi1hYmU2LTU2MDViMjQxZTJiYiJ9.F9vpgbIuXj7YzfZ9BvR6_RP0S8X16IhDtl_3mThdswI"  fingerprint:"7b849c5c-16b5-4ee4-a627-a21cac4c7160"}
-[INFO]: 2023-05-01 19:53:12 - method: refresh | error: session is invalid | parameters: map[fingerprint:7b849c5c-16b5-4ee4-a627-a21cac4c7160 refreshToken:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODU1NjIzMTksImlzcyI6ImRtaXR5LWF1dGgiLCJTZXNzaW9uVVVJRCI6ImI3ZDZjNmZjLWJhMWYtNDdmYi1hYmU2LTU2MDViMjQxZTJiYiJ9.F9vpgbIuXj7YzfZ9BvR6_RP0S8X16IhDtl_3mThdswI]
-[INFO]: 2023-05-01 19:53:23 - called /auth.Auth/Login method | parameters: {email:"1dd1d2@233"  password:"qw@#FSDF123"  fingerprint:"7b849c5c-16b5-4ee4-a627-a21cac4c7160"}
-[INFO]: 2023-05-01 19:53:45 - called /auth.Auth/Refresh method | parameters: {refreshToken:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODU1NjI4MDMsImlzcyI6ImRtaXR5LWF1dGgiLCJTZXNzaW9uVVVJRCI6IjA4MWRmMjhiLWU2ODktNDdkNy1iNGRjLTczYTM3ZTUyMjJhNiJ9.xdT0yjMmb7e-abg-tyJ6Wff7EY0EFJvklEmxd_AmmJk"  fingerprint:"7b849c5c-16b5-4ee4-a627-a21cac4c7160"}
-[INFO]: 2023-05-01 19:53:45 - method: refresh | error: session is invalid | parameters: map[fingerprint:7b849c5c-16b5-4ee4-a627-a21cac4c7160 refreshToken:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODU1NjI4MDMsImlzcyI6ImRtaXR5LWF1dGgiLCJTZXNzaW9uVVVJRCI6IjA4MWRmMjhiLWU2ODktNDdkNy1iNGRjLTczYTM3ZTUyMjJhNiJ9.xdT0yjMmb7e-abg-tyJ6Wff7EY0EFJvklEmxd_AmmJk]
-[INFO]: 2023-05-01 19:55:14 - called /auth.Auth/Refresh method | parameters: {refreshToken:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODU1NjI4MDMsImlzcyI6ImRtaXR5LWF1dGgiLCJTZXNzaW9uVVVJRCI6IjA4MWRmMjhiLWU2ODktNDdkNy1iNGRjLTczYTM3ZTUyMjJhNiJ9.xdT0yjMmb7e-abg-tyJ6Wff7EY0EFJvklEmxd_AmmJk" fingerprint:"7b849c5c-16b5-4ee4-a627-a21cac4c7160"}
-[INFO]: 2023-05-01 19:55:14 - method: refresh | error: session doesn't exist | parameters: map[fingerprint:7b849c5c-16b5-4ee4-a627-a21cac4c7160 refreshToken:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODU1NjI4MDMsImlzcyI6ImRtaXR5LWF1dGgiLCJTZXNzaW9uVVVJRCI6IjA4MWRmMjhiLWU2ODktNDdkNy1iNGRjLTczYTM3ZTUyMjJhNiJ9.xdT0yjMmb7e-abg-tyJ6Wff7EY0EFJvklEmxd_AmmJk]
-[INFO]: 2023-05-01 19:55:36 - called /auth.Auth/Refresh method | parameters: {refreshToken:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODU1NjI4MDMsImlzcyI6ImRtaXR5LWF1dGgiLCJTZXNzaW9uVVVJRCI6IjA4MWRmMjhiLWU2ODktNDdkNy1iNGRjLTczYTM3ZTUyMjJhNiJ9.xdT0yjMmb7e-abg-tyJ6Wff7EY0EFJvklEmxd_AmmJk" fingerprint:"7b849c5c-16b5-4ee4-a627-a21cac4c7160"}
-[INFO]: 2023-05-01 19:55:36 - method: refresh | error: session doesn't exist | parameters: map[fingerprint:7b849c5c-16b5-4ee4-a627-a21cac4c7160 refreshToken:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODU1NjI4MDMsImlzcyI6ImRtaXR5LWF1dGgiLCJTZXNzaW9uVVVJRCI6IjA4MWRmMjhiLWU2ODktNDdkNy1iNGRjLTczYTM3ZTUyMjJhNiJ9.xdT0yjMmb7e-abg-tyJ6Wff7EY0EFJvklEmxd_AmmJk]
-[INFO]: 2023-05-01 19:56:06 - called /auth.Auth/Login method | parameters: {email:"1dd1d2@233" password:"qw@#FSDF123" fingerprint:"7b849c5c-16b5-4ee4-a627-a21cac4c7160"}
-[INFO]: 2023-05-01 19:56:15 - called /auth.Auth/Refresh method | parameters: {refreshToken:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODU1NjI5NjYsImlzcyI6ImRtaXR5LWF1dGgiLCJTZXNzaW9uVVVJRCI6IjUwYWFjNDVkLWM1OGMtNGI1OC1iNmM3LTM5NzlkMzA1NTI0MyJ9.ditQd-b6JJYGYmagZW6Kw-YK7FTgJhrDvLBs3nBDJeU" fingerprint:"7b849c5c-16b5-4ee4-a627-a21cac4c7160"}
-[INFO]: 2023-05-01 19:56:15 - method: refresh | error: session is invalid | parameters: map[fingerprint:7b849c5c-16b5-4ee4-a627-a21cac4c7160 refreshToken:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODU1NjI5NjYsImlzcyI6ImRtaXR5LWF1dGgiLCJTZXNzaW9uVVVJRCI6IjUwYWFjNDVkLWM1OGMtNGI1OC1iNmM3LTM5NzlkMzA1NTI0MyJ9.ditQd-b6JJYGYmagZW6Kw-YK7FTgJhrDvLBs3nBDJeU]
-[INFO]: 2023-05-01 19:56:54 - called /auth.Auth/Refresh method | parameters: {refreshToken:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODU1NjI5NjYsImlzcyI6ImRtaXR5LWF1dGgiLCJTZXNzaW9uVVVJRCI6IjUwYWFjNDVkLWM1OGMtNGI1OC1iNmM3LTM5NzlkMzA1NTI0MyJ9.ditQd-b6JJYGYmagZW6Kw-YK7FTgJhrDvLBs3nBDJeU" fingerprint:"7b849c5c-16b5-4ee4-a627-a21cac4c7160"}
-[INFO]: 2023-05-01 19:56:54 - method: refresh | error: session doesn't exist | parameters: map[fingerprint:7b849c5c-16b5-4ee4-a627-a21cac4c7160 refreshToken:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODU1NjI5NjYsImlzcyI6ImRtaXR5LWF1dGgiLCJTZXNzaW9uVVVJRCI6IjUwYWFjNDVkLWM1OGMtNGI1OC1iNmM3LTM5NzlkMzA1NTI0MyJ9.ditQd-b6JJYGYmagZW6Kw-YK7FTgJhrDvLBs3nBDJeU]
-[INFO]: 2023-05-01 19:57:54 - called /auth.Auth/Login method | parameters: {email:"1dd1d2@233"  password:"qw@#FSDF123"  fingerprint:"7b849c5c-16b5-4ee4-a627-a21cac4c7160"}
-[INFO]: 2023-05-01 19:58:04 - called /auth.Auth/Refresh method | parameters: {refreshToken:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODU1NjMwNzQsImlzcyI6ImRtaXR5LWF1dGgiLCJTZXNzaW9uVVVJRCI6ImVkOTRjNjcyLTRlZWItNDFiMy04ZGMyLTk3ZWRmMDdkYTRiOCJ9.aBHOG7rAav3ZUuXxwce9px_lTQR7DG-BFKqJY1Z4XX8"  fingerprint:"7b849c5c-16b5-4ee4-a627-a21cac4c7160"}
-[INFO]: 2023-05-01 19:58:04 - method: refresh | error: session is invalid | parameters: map[fingerprint:7b849c5c-16b5-4ee4-a627-a21cac4c7160 refreshToken:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODU1NjMwNzQsImlzcyI6ImRtaXR5LWF1dGgiLCJTZXNzaW9uVVVJRCI6ImVkOTRjNjcyLTRlZWItNDFiMy04ZGMyLTk3ZWRmMDdkYTRiOCJ9.aBHOG7rAav3ZUuXxwce9px_lTQR7DG-BFKqJY1Z4XX8]
-[INFO]: 2023-05-01 20:00:07 - called /auth.Auth/Login method | parameters: {email:"1dd1d2@233"  password:"qw@#FSDF123"  fingerprint:"7b849c5c-16b5-4ee4-a627-a21cac4c7160"}
-[INFO]: 2023-05-01 20:00:17 - called /auth.Auth/Refresh method | parameters: {refreshToken:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODU1NjMyMDcsImlzcyI6ImRtaXR5LWF1dGgiLCJTZXNzaW9uVVVJRCI6IjY0MTliNDFjLWNlMDMtNGQzNi1hNDI5LTdhNWE4N2ZlOTg5MSJ9.MhnsoRN36_zDgWaCyh_0b13iT8pH-vx6082dTCuQuVc"  fingerprint:"7b849c5c-16b5-4ee4-a627-a21cac4c7160"}
-[INFO]: 2023-05-01 20:00:17 - method: refresh | error: session is invalid | parameters: map[fingerprint:7b849c5c-16b5-4ee4-a627-a21cac4c7160 refreshToken:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODU1NjMyMDcsImlzcyI6ImRtaXR5LWF1dGgiLCJTZXNzaW9uVVVJRCI6IjY0MTliNDFjLWNlMDMtNGQzNi1hNDI5LTdhNWE4N2ZlOTg5MSJ9.MhnsoRN36_zDgWaCyh_0b13iT8pH-vx6082dTCuQuVc]
+[INFO]: 2023-06-17 13:23:30 - start clearing old sessions
+[INFO]: 2023-06-17 13:23:30 - clearing old sessions...
+[INFO]: 2023-06-17 13:38:24 - start clearing old sessions
+[INFO]: 2023-06-17 13:38:24 - clearing old sessions...
+[INFO]: 2023-06-17 13:40:18 - start clearing old sessions
+[INFO]: 2023-06-17 13:40:18 - clearing old sessions...
+[INFO]: 2023-06-17 13:40:47 - start clearing old sessions
+[INFO]: 2023-06-17 13:40:47 - clearing old sessions...
+[INFO]: 2023-06-17 20:25:18 - start clearing old sessions
+[INFO]: 2023-06-17 20:25:18 - clearing old sessions...
+[INFO]: 2023-06-17 20:25:54 - start clearing old sessions
+[INFO]: 2023-06-17 20:25:54 - clearing old sessions...
+[INFO]: 2023-06-17 20:27:16 - start clearing old sessions
+[INFO]: 2023-06-17 20:27:16 - clearing old sessions...
+[INFO]: 2023-06-17 20:29:57 - start clearing old sessions
+[INFO]: 2023-06-17 20:29:57 - clearing old sessions...
+[INFO]: 2023-06-17 20:32:15 - start clearing old sessions
+[INFO]: 2023-06-17 20:32:15 - clearing old sessions...
+[INFO]: 2023-06-17 20:33:47 - start clearing old sessions
+[INFO]: 2023-06-17 20:33:47 - clearing old sessions...
+[INFO]: 2023-06-17 20:35:28 - start clearing old sessions
+[INFO]: 2023-06-17 20:35:28 - clearing old sessions...
+[INFO]: 2023-06-17 20:38:28 - start clearing old sessions
+[INFO]: 2023-06-17 20:38:28 - clearing old sessions...
+[INFO]: 2023-06-17 20:41:01 - start clearing old sessions
+[INFO]: 2023-06-17 20:41:01 - clearing old sessions...
+[INFO]: 2023-06-17 20:42:44 - start clearing old sessions
+[INFO]: 2023-06-17 20:42:44 - clearing old sessions...
+[INFO]: 2023-06-17 20:43:41 - start clearing old sessions
+[INFO]: 2023-06-17 20:43:41 - clearing old sessions...
+[INFO]: 2023-06-17 20:47:13 - start clearing old sessions
+[INFO]: 2023-06-17 20:47:13 - clearing old sessions...
+[INFO]: 2023-06-17 20:48:07 - start clearing old sessions
+[INFO]: 2023-06-17 20:48:07 - clearing old sessions...
+[INFO]: 2023-06-17 20:48:57 - start clearing old sessions
+[INFO]: 2023-06-17 20:48:57 - clearing old sessions...
+[INFO]: 2023-06-17 20:52:09 - start clearing old sessions
+[INFO]: 2023-06-17 20:52:09 - clearing old sessions...
+[INFO]: 2023-06-18 10:01:39 - start clearing old sessions
+[INFO]: 2023-06-18 10:01:39 - clearing old sessions...
+[INFO]: 2023-06-18 10:20:32 - start clearing old sessions
+[INFO]: 2023-06-18 10:20:32 - clearing old sessions...
+[INFO]: 2023-06-18 10:21:49 - start clearing old sessions
+[INFO]: 2023-06-18 10:21:49 - clearing old sessions...
+[INFO]: 2023-06-18 10:24:33 - start clearing old sessions
+[INFO]: 2023-06-18 10:24:33 - clearing old sessions...
+[INFO]: 2023-06-18 10:25:43 - start clearing old sessions
+[INFO]: 2023-06-18 10:25:43 - clearing old sessions...
+[INFO]: 2023-06-18 10:28:53 - start clearing old sessions
+[INFO]: 2023-06-18 10:28:53 - clearing old sessions...
+[INFO]: 2023-06-18 10:28:55 - Request: 7b816cb3-9639-40f3-a541-69ba2b24df23 | Method: /auth.Auth/Validate | parameters: {accessToken:"***"}
+[INFO]: 2023-06-18 10:28:55 - Request UUID: 7b816cb3-9639-40f3-a541-69ba2b24df23 | Method: validate | Error: token is invalid
+[INFO]: 2023-06-18 10:29:51 - start clearing old sessions
+[INFO]: 2023-06-18 10:29:51 - clearing old sessions...
+[INFO]: 2023-06-18 10:32:40 - start clearing old sessions
+[INFO]: 2023-06-18 10:32:40 - clearing old sessions...
+[INFO]: 2023-06-18 10:36:13 - start clearing old sessions
+[INFO]: 2023-06-18 10:36:13 - clearing old sessions...
+[INFO]: 2023-06-18 10:36:15 - Request: ee52f297-982e-4535-be12-b29b0bb4eb6e | Method: /auth.Auth/Login | parameters: {email:"string" password:"***"}
+[INFO]: 2023-06-18 10:36:15 - Request UUID: ee52f297-982e-4535-be12-b29b0bb4eb6e | Method: login | Error: fingerprint must be correct uuid

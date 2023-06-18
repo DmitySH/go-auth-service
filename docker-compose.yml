@@ -6,7 +6,7 @@ services:
     ports:
       - "8940:8940"
     env_file:
-      - "./configs/app.env"
+      - "./config/app.env"
     depends_on:
       - db
     volumes:
@@ -24,3 +24,14 @@ services:
       - .:/var/lib/postgresql/data
     ports:
       - "5440:5432"
+
+  auth-service-http:
+    container_name: "auth-service-http"
+    build: ./http_proxy
+    restart: "on-failure:5"
+    ports:
+      - "8950:8950"
+    env_file:
+      - "./http_proxy/config/app.env"
+    depends_on:
+      - auth-service
