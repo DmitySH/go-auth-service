@@ -13,6 +13,11 @@ import (
 	"net/http"
 )
 
+const (
+	swaggerFilePath = "swagger-ui/swagger.json"
+	swaggerUIPath   = "swagger-ui"
+)
+
 func Run() {
 	srvAddr := fmt.Sprintf("%s:%d", viper.GetString("SERVER_HOST"), viper.GetInt("SERVER_PORT"))
 	httpListener, listenErr := net.Listen("tcp", srvAddr)
@@ -22,19 +27,19 @@ func Run() {
 	defer httpListener.Close()
 
 	gwMux := runtime.NewServeMux()
-	grpcEndpoint := "auth-service:8940"
+	grpcEndpointAddr := fmt.Sprintf("%s:%d", viper.GetString("ENDPOINT_HOST"), viper.GetInt("ENDPOINT_PORT"))
 	ctx := context.Background()
 	opts := []grpc.DialOption{grpc.WithTransportCredentials(insecure.NewCredentials())}
-	if regErr := gw.RegisterAuthHandlerFromEndpoint(ctx, gwMux, grpcEndpoint, opts); regErr != nil {
-		log.Fatalln("failed to register handler:", regErr)
+	if regErr := gw.RegisterAuthHandlerFromEndpoint(ctx, gwMux, grpcEndpointAddr, opts); regErr != nil {
+		log.Fatalln("failed to register handler for grpc endpoint:", regErr)
 	}
 
 	httpMux := http.NewServeMux()
 	httpMux.Handle("/", gwMux)
 	httpMux.HandleFunc("/docs/swagger.json", func(w http.ResponseWriter, r *http.Request) {
-		http.ServeFile(w, r, "swagger-ui/swagger.json")
+		http.ServeFile(w, r, swaggerFilePath)
 	})
-	httpMux.Handle("/docs/", http.StripPrefix("/docs/", http.FileServer(http.Dir("swagger-ui"))))
+	httpMux.Handle("/docs/", http.StripPrefix("/docs/", http.FileServer(http.Dir(swaggerUIPath))))
 
 	if serveErr := http.Serve(httpListener, httpMux); serveErr != nil {
 		log.Fatalln(serveErr)
